@@ -50,18 +50,18 @@ func (r *LuaRunner) getOutDictByLua(luaCode string, dict map[string]string) (map
 
 	err = r.state.DoString(luaCode)
 	if err != nil {
-		return nil, errors.WithMessage(err, "lua do string")
+		return nil, errors.WithMessage(err, "lua do string error")
 	}
 
 	//函数名称
 	funcName := "main"
 	//执行
-	err = r.state.CallByParam(lua.P{
+	p := lua.P{
 		Fn:      r.state.GetGlobal(funcName),
 		NRet:    1,
-		Protect: true,},
-		//下面是对应main函数传入参数的部分
-		luaTable)
+		Protect: true,
+	}
+	err = r.state.CallByParam(p, luaTable)
 
 	if err != nil {
 		return nil, errors.WithMessage(err, fmt.Sprintf("解析脚本出错(可能函数名称不能识别或脚本写错):\n----\n%s\n----\n", luaCode))
