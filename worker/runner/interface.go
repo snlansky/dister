@@ -1,5 +1,5 @@
 package runner
 
 type IRunner interface {
-	Call (baseUrl, script string) string
+	Call (baseUrl, script string) (string, error)
 }

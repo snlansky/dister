@@ -22,7 +22,7 @@ function main(dict)
   return outDict
 end`
 	lr := NewLuaRunner()
-	resp := lr.Call("http://127.0.0.1:5000", script)
-
+	resp, err := lr.Call("http://127.0.0.1:5000", script)
+	assert.NoError(t, err)
 	assert.True(t, strings.Contains(resp, "pong"))
 }
