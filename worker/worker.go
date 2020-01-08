@@ -1,14 +1,13 @@
 package worker
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"github.com/urfave/cli"
+)
 
-func Cmd() *cobra.Command {
-	return &cobra.Command{
-		Use:                        "worker",
-		Short:                      "w",
-		Long:                       "worker",
-		Run: func(cmd *cobra.Command, args []string) {
-			Main()
-		},
-	}
+func Start(c *cli.Context) error {
+	consul := c.String("consul")
+	fmt.Println(consul)
+	return nil
+
 }

@@ -1,14 +1,12 @@
 package master
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"github.com/urfave/cli"
+)
 
-func Cmd() *cobra.Command {
-	return &cobra.Command{
-		Use: "master",
-		Short: "",
-		Long:  "master",
-		Run: func(cmd *cobra.Command, args []string) {
-			Main()
-		},
-	}
+func Start(c *cli.Context) error {
+	db := c.String("db")
+	fmt.Println(db)
+	return nil
 }

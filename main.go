@@ -1,21 +1,73 @@
-// Copyright © 2020 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package main
 
-import "dister/cmd"
+import (
+	"dister/master"
+	"dister/worker"
+	"log"
+	"os"
+
+	"github.com/urfave/cli"
+)
 
 func main() {
-	cmd.Execute()
+	app := cli.NewApp()
+
+	app.Commands = []cli.Command{
+		{
+			Name:     "master",
+			Aliases:  []string{"m"},
+			Usage:    "run master server",
+			Category: "master",
+			Action:   master.Start,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:  "log-mode",
+					Value: "development",
+					Usage: "log mode, can be development or production",
+				},
+				&cli.StringFlag{
+					Name:   "db",
+					Value:  "127.0.0.1:3306",
+					Usage:  "mysql dsn",
+					EnvVar: "DB",
+				},
+				&cli.StringFlag{
+					Name:   "consul",
+					Value:  "127.0.0.1:5506",
+					Usage:  "register to consul",
+					EnvVar: "CONSUL_REGISTER",
+				},
+			},
+		},
+		{
+			Name:     "worker",
+			Aliases:  []string{"w"},
+			Usage:    "run worker to test",
+			Category: "worker",
+			Action:   worker.Start,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:  "log-mode",
+					Value: "development",
+					Usage: "log mode, can be development or production",
+				},
+				&cli.StringFlag{
+					Name:   "consul",
+					Value:  "127.0.0.1:5506",
+					Usage:  "register to consul",
+					EnvVar: "CONSUL_REGISTER",
+				},
+			},
+		},
+	}
+
+	app.Name = "dister"
+	app.Usage = "application usage"
+	app.Description = "distribution tester" // 描述
+	app.Version = "1.0.0"                   // 版本
+
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

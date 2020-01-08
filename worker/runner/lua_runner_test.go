@@ -1,21 +1,28 @@
 package runner
 
 import (
+	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
 )
 
-func init()  {
+func init() {
 
 }
 func TestLuaRunner_Call(t *testing.T) {
-	script := getLuaScript()
+	script := `
+function main(dict)
+  rootUrl = dict["root"]
+  outDict = {}
+
+  outDict["task.id"] = "9"
+  outDict["task.name"] = "simple ping"
+
+  outDict["req.url"] = string.format("%s/ping",rootUrl)
+  return outDict
+end`
 	lr := NewLuaRunner()
-	respStr := lr.Call(script)
+	resp := lr.Call("http://127.0.0.1:5000", script)
 
-	expectStr := "pong"
-	if !strings.Contains(respStr,expectStr){
-		t.Fatalf("测试失败,期望包含:【%s】,实际:【%s】",expectStr,respStr)
-	}
-
+	assert.True(t, strings.Contains(resp, "pong"))
 }

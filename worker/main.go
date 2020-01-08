@@ -1,7 +1,0 @@
-package worker
-
-func Main()  {
-
-}
-
-
