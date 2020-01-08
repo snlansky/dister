@@ -1,5 +1,9 @@
 package runner
 
+import (
+	"dister/model"
+)
+
 type IRunner interface {
-	Call (baseUrl, script string) (string, error)
+	Call(*model.UnitTest) (string, error)
 }

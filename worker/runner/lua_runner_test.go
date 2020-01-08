@@ -1,14 +1,11 @@
 package runner
 
 import (
+	"dister/model"
 	"github.com/stretchr/testify/assert"
-	"strings"
 	"testing"
 )
 
-func init() {
-
-}
 func TestLuaRunner_Call(t *testing.T) {
 	script := `
 function main(dict)
@@ -22,7 +19,14 @@ function main(dict)
   return outDict
 end`
 	lr := NewLuaRunner()
-	resp, err := lr.Call("http://127.0.0.1:5000", script)
+	ut := &model.UnitTest{
+		BaseUrl:     "http://127.0.0.1:5000",
+		Script:      script,
+		Validator:   model.EqualValidatorType,
+		ExceptValue: "pong",
+	}
+	resp, err := lr.Call(ut)
 	assert.NoError(t, err)
-	assert.True(t, strings.Contains(resp, "pong"))
+	validator := ut.GetValidator()
+	assert.True(t, validator.Valid(resp))
 }
