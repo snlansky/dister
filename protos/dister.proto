@@ -81,9 +81,13 @@ message Validator {
 }
 
 message Task {
+    enum Method {
+        GET = 0;
+        POST = 1;
+    }
     string url = 1;
     string path = 2;
-    string rest_method = 3;
+    Method method = 3;
     bytes body = 4;
     string script = 5;
     repeated Validator vs = 6;
