@@ -1,7 +1,7 @@
 package runner
 
 import (
-	"dister/model"
+	"dister/protos"
 	"dister/utils"
 	"fmt"
 	"github.com/pkg/errors"
@@ -24,11 +24,11 @@ func NewLuaRunner() IRunner {
 	}
 }
 
-func (r *LuaRunner) Call(test *model.UnitTest) (string, error) {
+func (r *LuaRunner) Call(task *protos.Task) (string, error) {
 	dict := make(map[string]string)
-	dict["root"] = test.BaseUrl
+	dict["root"] = task.Url
 
-	reqDict, err := r.getOutDictByLua(test.Script, dict)
+	reqDict, err := r.getOutDictByLua(task.Script, dict)
 	if err != nil {
 		return "", nil
 	}

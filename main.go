@@ -9,6 +9,8 @@ import (
 	"github.com/urfave/cli"
 )
 
+//go:generate protoc -I protos/ protos/dister.proto --go_out=plugins=grpc:protos
+
 func main() {
 	app := cli.NewApp()
 

@@ -2,25 +2,6 @@ package model
 
 import "strings"
 
-type UnitTest struct {
-	BaseUrl     string
-	Script      string
-	Validator   string
-	ExceptValue string
-}
-
-func (ut *UnitTest) GetValidator() Validator {
-	switch ut.Validator {
-	case EqualValidatorType:
-		return &EqualValidate{Value: ut.ExceptValue}
-	}
-	return nil
-}
-
-const (
-	EqualValidatorType = "eq"
-)
-
 type Validator interface {
 	Valid(v string) bool
 }

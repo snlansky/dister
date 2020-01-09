@@ -1,9 +1,7 @@
 package runner
 
-import (
-	"dister/model"
-)
+import "dister/protos"
 
 type IRunner interface {
-	Call(*model.UnitTest) (string, error)
+	Call(task *protos.Task) (string, error)
 }
