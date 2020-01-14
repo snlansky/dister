@@ -39,6 +39,18 @@ func main() {
 					Usage:  "register to consul",
 					EnvVar: "CONSUL_REGISTER",
 				},
+				&cli.StringFlag{
+					Name:   "grpc_address",
+					Value:  ":9090",
+					Usage:  "grpc address",
+					EnvVar: "GRPC_ADDRESS",
+				},
+				&cli.StringFlag{
+					Name:   "http_address",
+					Value:  ":8080",
+					Usage:  "http address",
+					EnvVar: "HTTP_ADDRESS",
+				},
 			},
 		},
 		{
@@ -58,6 +70,12 @@ func main() {
 					Value:  "127.0.0.1:5506",
 					Usage:  "register to consul",
 					EnvVar: "CONSUL_REGISTER",
+				},
+				&cli.StringFlag{
+					Name:   "master_address",
+					Value:  "127.0.0.1:9090",
+					Usage:  "master address",
+					EnvVar: "MASTER_ADDRESS",
 				},
 			},
 		},
