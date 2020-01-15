@@ -23,6 +23,8 @@ message Message {
         REGISTER_RESPONSE = 1;
         TASK_PROCESS_REQUEST = 2;
         TASK_PROCESS_RESPONSE = 3;
+        TASK_START_REQUEST = 4;
+        TASK_START_RESPONSE = 5;
         PING_REQUEST = 700;
         PING_RESPONSE = 701;
     }
@@ -99,6 +101,14 @@ message TaskProcessResponse {
     }
     string id = 1;
     PrepareType pt = 2;
+}
+
+message TaskStartRequest {
+    string id = 1;
+}
+
+message TaskStartResponse {
+    string id = 1;
 }
 
 message PingRequest {
