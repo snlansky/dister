@@ -30,7 +30,7 @@ func main() {
 				},
 				&cli.StringFlag{
 					Name:   "consul",
-					Value:  "127.0.0.1:5506",
+					Value:  "127.0.0.1:8500",
 					Usage:  "register to consul",
 					EnvVar: "CONSUL_REGISTER",
 				},

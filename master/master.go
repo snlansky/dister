@@ -1,6 +1,7 @@
 package master
 
 import (
+	"dister/pkg/grpcsr"
 	"fmt"
 	"time"
 
@@ -19,6 +20,10 @@ func Start(c *cli.Context) error {
 
 	go func() {
 		fatal <- startCron()
+	}()
+
+	go func() {
+		fatal <- startDiscover(c.String("consul"))
 	}()
 
 	return <-fatal
@@ -45,4 +50,24 @@ func startCron() error {
 		}
 	}
 	return nil
+}
+
+func startDiscover(cousul string) error {
+	resolver := grpcsr.NewConsulResolver(cousul, "grpc.health.v1.worker")
+	resolve, err := resolver.Resolve("")
+	if err != nil {
+		return err
+	}
+
+	for {
+		list, err := resolve.Next()
+		if err != nil {
+			return err
+		}
+
+		for _, item := range list {
+			fmt.Println(item)
+		}
+
+	}
 }

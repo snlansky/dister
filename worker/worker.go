@@ -12,8 +12,6 @@ import (
 )
 
 func Start(c *cli.Context) error {
-	consul := c.String("consul")
-	fmt.Println(consul)
 	fatal := make(chan error)
 
 	port := c.Int("grpc_port")
@@ -22,10 +20,17 @@ func Start(c *cli.Context) error {
 		fatal <- startGRPC(fmt.Sprintf(":%d", port))
 	}()
 
-	go func() {
-		consulAddr := c.String("consul")
-		fatal <- startRegister(consulAddr, "worker", port)
-	}()
+	consul := c.String("consul")
+	register, err := grpcsr.NewConsulRegister(consul, "worker", port)
+	if err != nil {
+		return err
+	}
+
+	err = register.Register()
+	if err != nil {
+		return err
+	}
+	defer register.Deregister()
 
 	return <-fatal
 }
@@ -47,7 +52,3 @@ func startGRPC(address string) error {
 	return srv.Serve(lis)
 }
 
-func startRegister(consul string, app string, port int) error {
-	register := grpcsr.NewConsulRegister(consul, app, port)
-	return register.Register()
-}
