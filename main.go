@@ -23,11 +23,6 @@ func main() {
 			Action:   master.Start,
 			Flags: []cli.Flag{
 				&cli.StringFlag{
-					Name:  "log-mode",
-					Value: "development",
-					Usage: "log mode, can be development or production",
-				},
-				&cli.StringFlag{
 					Name:   "db",
 					Value:  "127.0.0.1:3306",
 					Usage:  "mysql dsn",
@@ -38,12 +33,6 @@ func main() {
 					Value:  "127.0.0.1:5506",
 					Usage:  "register to consul",
 					EnvVar: "CONSUL_REGISTER",
-				},
-				&cli.StringFlag{
-					Name:   "worker_address",
-					Value:  "127.0.0.1:9090",
-					Usage:  "grpc address",
-					EnvVar: "GRPC_ADDRESS",
 				},
 				&cli.StringFlag{
 					Name:   "http_address",
@@ -61,27 +50,16 @@ func main() {
 			Action:   worker.Start,
 			Flags: []cli.Flag{
 				&cli.StringFlag{
-					Name:  "log-mode",
-					Value: "development",
-					Usage: "log mode, can be development or production",
-				},
-				&cli.StringFlag{
 					Name:   "consul",
-					Value:  "127.0.0.1:5506",
+					Value:  "127.0.0.1:8500",
 					Usage:  "register to consul",
 					EnvVar: "CONSUL_REGISTER",
 				},
-				&cli.StringFlag{
-					Name:   "grpc_address",
-					Value:  ":9090",
-					Usage:  "grpc address",
-					EnvVar: "GRPC_ADDRESS",
-				},
-				&cli.StringFlag{
-					Name:   "http_address",
-					Value:  ":8080",
-					Usage:  "http address",
-					EnvVar: "HTTP_ADDRESS",
+				&cli.IntFlag{
+					Name:   "grpc_port",
+					Value:  9090,
+					Usage:  "grpc port",
+					EnvVar: "GRPC_PORT",
 				},
 			},
 		},

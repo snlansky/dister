@@ -1,9 +1,9 @@
 package worker
 
 import (
+	"dister/pkg/grpcsr"
 	"dister/protos"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/urfave/cli"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"
@@ -16,15 +16,18 @@ func Start(c *cli.Context) error {
 	fmt.Println(consul)
 	fatal := make(chan error)
 
+	port := c.Int("grpc_port")
+
 	go func() {
-		fatal <- startGRPC(c.String("grpc_address"))
+		fatal <- startGRPC(fmt.Sprintf(":%d", port))
 	}()
 
 	go func() {
-		fatal <- startHttp(c.String("http_address"))
+		consulAddr := c.String("consul")
+		fatal <- startRegister(consulAddr, "worker", port)
 	}()
 
-	return <- fatal
+	return <-fatal
 }
 
 func startGRPC(address string) error {
@@ -40,15 +43,11 @@ func startGRPC(address string) error {
 
 	protos.RegisterDisterServer(srv, svc)
 	grpc_health_v1.RegisterHealthServer(srv, &HealthImpl{})
+
 	return srv.Serve(lis)
 }
 
-func startHttp(address string) error {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	return r.Run(address)
+func startRegister(consul string, app string, port int) error {
+	register := grpcsr.NewConsulRegister(consul, app, port)
+	return register.Register()
 }
