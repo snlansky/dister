@@ -2,11 +2,16 @@ package master
 
 import (
 	"dister/pkg/grpcsr"
+	"dister/protos"
+	"dister/worker"
 	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/mbobakov/grpc-consul-resolver" // It's important
 	"github.com/urfave/cli"
+
+	"google.golang.org/grpc"
 )
 
 func Start(c *cli.Context) error {
@@ -25,6 +30,21 @@ func Start(c *cli.Context) error {
 	go func() {
 		fatal <- startDiscover(c.String("consul"))
 	}()
+
+	conn, err := grpc.Dial(
+		"consul://127.0.0.1:8500/grpc.health.v1.worker?wait=14s",
+		grpc.WithInsecure(),
+		grpc.WithBalancerName("round_robin"),
+	)
+	if err != nil {
+		return err
+	}
+	_, err = worker.Commit(conn, &protos.TaskCommitRequest{
+		Id: "fsfsff",
+	})
+	if err != nil {
+		return err
+	}
 
 	return <-fatal
 }

@@ -11,6 +11,8 @@ github.com/gin-gonic/gin
 github.com/gin-gonic/gin/binding
 github.com/gin-gonic/gin/internal/json
 github.com/gin-gonic/gin/render
+# github.com/go-playground/form v3.1.4+incompatible
+github.com/go-playground/form
 # github.com/go-playground/locales v0.12.1
 github.com/go-playground/locales
 github.com/go-playground/locales/currency
@@ -34,6 +36,8 @@ github.com/hashicorp/go-rootcerts
 github.com/hashicorp/golang-lru/simplelru
 # github.com/hashicorp/serf v0.8.2
 github.com/hashicorp/serf/coordinate
+# github.com/jpillora/backoff v1.0.0
+github.com/jpillora/backoff
 # github.com/json-iterator/go v1.1.7
 github.com/json-iterator/go
 # github.com/konsorten/go-windows-terminal-sequences v1.0.1
@@ -42,7 +46,9 @@ github.com/konsorten/go-windows-terminal-sequences
 github.com/leodido/go-urn
 # github.com/mattn/go-isatty v0.0.9
 github.com/mattn/go-isatty
-# github.com/mitchellh/go-homedir v1.0.0
+# github.com/mbobakov/grpc-consul-resolver v1.4.0
+github.com/mbobakov/grpc-consul-resolver
+# github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.1.2
 github.com/mitchellh/mapstructure
@@ -106,6 +112,7 @@ google.golang.org/grpc/credentials/internal
 google.golang.org/grpc/encoding
 google.golang.org/grpc/encoding/proto
 google.golang.org/grpc/grpclog
+google.golang.org/grpc/health/grpc_health_v1
 google.golang.org/grpc/internal
 google.golang.org/grpc/internal/backoff
 google.golang.org/grpc/internal/balancerload
