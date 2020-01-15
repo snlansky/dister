@@ -1,3 +1,5 @@
+# github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da
+github.com/armon/go-metrics
 # github.com/cpuguy83/go-md2man/v2 v2.0.0
 github.com/cpuguy83/go-md2man/v2/md2man
 # github.com/davecgh/go-spew v1.1.1
@@ -20,12 +22,28 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
+# github.com/hashicorp/consul/api v1.3.0
+github.com/hashicorp/consul/api
+# github.com/hashicorp/go-cleanhttp v0.5.1
+github.com/hashicorp/go-cleanhttp
+# github.com/hashicorp/go-immutable-radix v1.0.0
+github.com/hashicorp/go-immutable-radix
+# github.com/hashicorp/go-rootcerts v1.0.0
+github.com/hashicorp/go-rootcerts
+# github.com/hashicorp/golang-lru v0.5.0
+github.com/hashicorp/golang-lru/simplelru
+# github.com/hashicorp/serf v0.8.2
+github.com/hashicorp/serf/coordinate
 # github.com/json-iterator/go v1.1.7
 github.com/json-iterator/go
+# github.com/konsorten/go-windows-terminal-sequences v1.0.1
+github.com/konsorten/go-windows-terminal-sequences
 # github.com/leodido/go-urn v1.1.0
 github.com/leodido/go-urn
 # github.com/mattn/go-isatty v0.0.9
 github.com/mattn/go-isatty
+# github.com/mitchellh/go-homedir v1.0.0
+github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.1.2
 github.com/mitchellh/mapstructure
 # github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
@@ -42,6 +60,8 @@ github.com/russross/blackfriday/v2
 github.com/satori/go.uuid
 # github.com/shurcooL/sanitized_anchor_name v1.0.0
 github.com/shurcooL/sanitized_anchor_name
+# github.com/sirupsen/logrus v1.4.2
+github.com/sirupsen/logrus
 # github.com/stretchr/testify v1.4.0
 github.com/stretchr/testify/assert
 # github.com/ugorji/go/codec v1.1.7
@@ -55,12 +75,7 @@ github.com/yuin/gopher-lua
 github.com/yuin/gopher-lua/ast
 github.com/yuin/gopher-lua/parse
 github.com/yuin/gopher-lua/pm
-# go.uber.org/atomic v1.5.1
-go.uber.org/atomic
-# golang.org/x/lint v0.0.0-20190930215403-16217165b5de
-golang.org/x/lint
-golang.org/x/lint/golint
-# golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
+# golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
 golang.org/x/net/http2/hpack
@@ -74,10 +89,6 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# golang.org/x/tools v0.0.0-20191029041327-9cc4af7d6b2c
-golang.org/x/tools/go/ast/astutil
-golang.org/x/tools/go/gcexportdata
-golang.org/x/tools/go/internal/gcimporter
 # google.golang.org/genproto v0.0.0-20200113173426-e1de0a7b01eb
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.26.0

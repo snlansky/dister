@@ -6,50 +6,11 @@ syntax = "proto3";
 package protos;
 
 service Dister {
-    rpc register (stream Message) returns (stream Message) {}
+    rpc prepare(TaskProcessRequest) returns (TaskProcessResponse){}
+    rpc commit(TaskCommitRequest) returns (TaskCommitResponse) {}
+    rpc state(StateRequest) returns (StateResponse) {}
 }
 
-// A list of messages to be transmitted together.
-message MessageList {
-    repeated Message messages = 1;
-}
-
-// The message passed between the validator and client, containing the
-// header fields and content.
-message Message {
-
-    enum MessageType {
-        REGISTER_REQUEST = 0;
-        REGISTER_RESPONSE = 1;
-        TASK_PROCESS_REQUEST = 2;
-        TASK_PROCESS_RESPONSE = 3;
-        TASK_COMMIT_REQUEST = 4;
-        TASK_COMMIT_RESPONSE = 5;
-        PING_REQUEST = 700;
-        PING_RESPONSE = 701;
-    }
-
-    // content.
-    MessageType message_type = 1;
-
-    // The identifier used to correlate response messages to their related
-    // request messages.  correlation_id should be set to a random string
-    // for messages which are not responses to previously sent messages.  For
-    // response messages, correlation_id should be set to the same string as
-    // contained in the request message.
-    string correlation_id = 2;
-
-    bytes content = 3;
-}
-
-message RegisterRequest {
-    int32 cpu = 1;
-    int32 mem = 2;
-}
-
-message RegisterResponse {
-    string id = 1;
-}
 
 message TaskProcessRequest {
     string id = 1;
@@ -111,7 +72,10 @@ message TaskCommitResponse {
     string id = 1;
 }
 
-message PingRequest {
+message StateRequest {
+}
+
+message StateResponse {
     enum StatueType {
         Busy = 0;
         Idle = 1;

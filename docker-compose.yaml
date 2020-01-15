@@ -1,0 +1,25 @@
+version: '3'
+services:
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dister
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  consul:
+    image: "consul"
+    command: ["agent", "-dev", "-ui", "-client", "0.0.0.0"]
+    ports:
+      - "8500:8500"
+  redis:
+    image: redis
+    command: redis-server --requirepass snlan
+    ports:
+      - "6379:6379"
+volumes:
+  mysql-data:

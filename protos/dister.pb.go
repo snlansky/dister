@@ -24,49 +24,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type Message_MessageType int32
-
-const (
-	Message_REGISTER_REQUEST      Message_MessageType = 0
-	Message_REGISTER_RESPONSE     Message_MessageType = 1
-	Message_TASK_PROCESS_REQUEST  Message_MessageType = 2
-	Message_TASK_PROCESS_RESPONSE Message_MessageType = 3
-	Message_TASK_START_REQUEST    Message_MessageType = 4
-	Message_TASK_START_RESPONSE   Message_MessageType = 5
-	Message_PING_REQUEST          Message_MessageType = 700
-	Message_PING_RESPONSE         Message_MessageType = 701
-)
-
-var Message_MessageType_name = map[int32]string{
-	0:   "REGISTER_REQUEST",
-	1:   "REGISTER_RESPONSE",
-	2:   "TASK_PROCESS_REQUEST",
-	3:   "TASK_PROCESS_RESPONSE",
-	4:   "TASK_START_REQUEST",
-	5:   "TASK_START_RESPONSE",
-	700: "PING_REQUEST",
-	701: "PING_RESPONSE",
-}
-
-var Message_MessageType_value = map[string]int32{
-	"REGISTER_REQUEST":      0,
-	"REGISTER_RESPONSE":     1,
-	"TASK_PROCESS_REQUEST":  2,
-	"TASK_PROCESS_RESPONSE": 3,
-	"TASK_START_REQUEST":    4,
-	"TASK_START_RESPONSE":   5,
-	"PING_REQUEST":          700,
-	"PING_RESPONSE":         701,
-}
-
-func (x Message_MessageType) String() string {
-	return proto.EnumName(Message_MessageType_name, int32(x))
-}
-
-func (Message_MessageType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{1, 0}
-}
-
 type Validator_ValidType int32
 
 const (
@@ -111,7 +68,7 @@ func (x Validator_ValidType) String() string {
 }
 
 func (Validator_ValidType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{5, 0}
+	return fileDescriptor_ffb07b0a572790a9, []int{1, 0}
 }
 
 type Task_Method int32
@@ -136,7 +93,7 @@ func (x Task_Method) String() string {
 }
 
 func (Task_Method) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{6, 0}
+	return fileDescriptor_ffb07b0a572790a9, []int{2, 0}
 }
 
 type TaskProcessResponse_PrepareType int32
@@ -161,224 +118,35 @@ func (x TaskProcessResponse_PrepareType) String() string {
 }
 
 func (TaskProcessResponse_PrepareType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{7, 0}
+	return fileDescriptor_ffb07b0a572790a9, []int{3, 0}
 }
 
-type PingRequest_StatueType int32
+type StateResponse_StatueType int32
 
 const (
-	PingRequest_Busy    PingRequest_StatueType = 0
-	PingRequest_Idle    PingRequest_StatueType = 1
-	PingRequest_UnReady PingRequest_StatueType = 2
+	StateResponse_Busy    StateResponse_StatueType = 0
+	StateResponse_Idle    StateResponse_StatueType = 1
+	StateResponse_UnReady StateResponse_StatueType = 2
 )
 
-var PingRequest_StatueType_name = map[int32]string{
+var StateResponse_StatueType_name = map[int32]string{
 	0: "Busy",
 	1: "Idle",
 	2: "UnReady",
 }
 
-var PingRequest_StatueType_value = map[string]int32{
+var StateResponse_StatueType_value = map[string]int32{
 	"Busy":    0,
 	"Idle":    1,
 	"UnReady": 2,
 }
 
-func (x PingRequest_StatueType) String() string {
-	return proto.EnumName(PingRequest_StatueType_name, int32(x))
+func (x StateResponse_StatueType) String() string {
+	return proto.EnumName(StateResponse_StatueType_name, int32(x))
 }
 
-func (PingRequest_StatueType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{10, 0}
-}
-
-// A list of messages to be transmitted together.
-type MessageList struct {
-	Messages             []*Message `protobuf:"bytes,1,rep,name=messages,proto3" json:"messages,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
-}
-
-func (m *MessageList) Reset()         { *m = MessageList{} }
-func (m *MessageList) String() string { return proto.CompactTextString(m) }
-func (*MessageList) ProtoMessage()    {}
-func (*MessageList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{0}
-}
-
-func (m *MessageList) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_MessageList.Unmarshal(m, b)
-}
-func (m *MessageList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_MessageList.Marshal(b, m, deterministic)
-}
-func (m *MessageList) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MessageList.Merge(m, src)
-}
-func (m *MessageList) XXX_Size() int {
-	return xxx_messageInfo_MessageList.Size(m)
-}
-func (m *MessageList) XXX_DiscardUnknown() {
-	xxx_messageInfo_MessageList.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MessageList proto.InternalMessageInfo
-
-func (m *MessageList) GetMessages() []*Message {
-	if m != nil {
-		return m.Messages
-	}
-	return nil
-}
-
-// The message passed between the validator and client, containing the
-// header fields and content.
-type Message struct {
-	// content.
-	MessageType Message_MessageType `protobuf:"varint,1,opt,name=message_type,json=messageType,proto3,enum=protos.Message_MessageType" json:"message_type,omitempty"`
-	// The identifier used to correlate response messages to their related
-	// request messages.  correlation_id should be set to a random string
-	// for messages which are not responses to previously sent messages.  For
-	// response messages, correlation_id should be set to the same string as
-	// contained in the request message.
-	CorrelationId        string   `protobuf:"bytes,2,opt,name=correlation_id,json=correlationId,proto3" json:"correlation_id,omitempty"`
-	Content              []byte   `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Message) Reset()         { *m = Message{} }
-func (m *Message) String() string { return proto.CompactTextString(m) }
-func (*Message) ProtoMessage()    {}
-func (*Message) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{1}
-}
-
-func (m *Message) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Message.Unmarshal(m, b)
-}
-func (m *Message) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Message.Marshal(b, m, deterministic)
-}
-func (m *Message) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Message.Merge(m, src)
-}
-func (m *Message) XXX_Size() int {
-	return xxx_messageInfo_Message.Size(m)
-}
-func (m *Message) XXX_DiscardUnknown() {
-	xxx_messageInfo_Message.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Message proto.InternalMessageInfo
-
-func (m *Message) GetMessageType() Message_MessageType {
-	if m != nil {
-		return m.MessageType
-	}
-	return Message_REGISTER_REQUEST
-}
-
-func (m *Message) GetCorrelationId() string {
-	if m != nil {
-		return m.CorrelationId
-	}
-	return ""
-}
-
-func (m *Message) GetContent() []byte {
-	if m != nil {
-		return m.Content
-	}
-	return nil
-}
-
-type RegisterRequest struct {
-	Cpu                  int32    `protobuf:"varint,1,opt,name=cpu,proto3" json:"cpu,omitempty"`
-	Mem                  int32    `protobuf:"varint,2,opt,name=mem,proto3" json:"mem,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *RegisterRequest) Reset()         { *m = RegisterRequest{} }
-func (m *RegisterRequest) String() string { return proto.CompactTextString(m) }
-func (*RegisterRequest) ProtoMessage()    {}
-func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{2}
-}
-
-func (m *RegisterRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegisterRequest.Unmarshal(m, b)
-}
-func (m *RegisterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegisterRequest.Marshal(b, m, deterministic)
-}
-func (m *RegisterRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterRequest.Merge(m, src)
-}
-func (m *RegisterRequest) XXX_Size() int {
-	return xxx_messageInfo_RegisterRequest.Size(m)
-}
-func (m *RegisterRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisterRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RegisterRequest proto.InternalMessageInfo
-
-func (m *RegisterRequest) GetCpu() int32 {
-	if m != nil {
-		return m.Cpu
-	}
-	return 0
-}
-
-func (m *RegisterRequest) GetMem() int32 {
-	if m != nil {
-		return m.Mem
-	}
-	return 0
-}
-
-type RegisterResponse struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *RegisterResponse) Reset()         { *m = RegisterResponse{} }
-func (m *RegisterResponse) String() string { return proto.CompactTextString(m) }
-func (*RegisterResponse) ProtoMessage()    {}
-func (*RegisterResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{3}
-}
-
-func (m *RegisterResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegisterResponse.Unmarshal(m, b)
-}
-func (m *RegisterResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegisterResponse.Marshal(b, m, deterministic)
-}
-func (m *RegisterResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterResponse.Merge(m, src)
-}
-func (m *RegisterResponse) XXX_Size() int {
-	return xxx_messageInfo_RegisterResponse.Size(m)
-}
-func (m *RegisterResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisterResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RegisterResponse proto.InternalMessageInfo
-
-func (m *RegisterResponse) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
+func (StateResponse_StatueType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{7, 0}
 }
 
 type TaskProcessRequest struct {
@@ -396,7 +164,7 @@ func (m *TaskProcessRequest) Reset()         { *m = TaskProcessRequest{} }
 func (m *TaskProcessRequest) String() string { return proto.CompactTextString(m) }
 func (*TaskProcessRequest) ProtoMessage()    {}
 func (*TaskProcessRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{4}
+	return fileDescriptor_ffb07b0a572790a9, []int{0}
 }
 
 func (m *TaskProcessRequest) XXX_Unmarshal(b []byte) error {
@@ -465,7 +233,7 @@ func (m *Validator) Reset()         { *m = Validator{} }
 func (m *Validator) String() string { return proto.CompactTextString(m) }
 func (*Validator) ProtoMessage()    {}
 func (*Validator) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{5}
+	return fileDescriptor_ffb07b0a572790a9, []int{1}
 }
 
 func (m *Validator) XXX_Unmarshal(b []byte) error {
@@ -523,7 +291,7 @@ func (m *Task) Reset()         { *m = Task{} }
 func (m *Task) String() string { return proto.CompactTextString(m) }
 func (*Task) ProtoMessage()    {}
 func (*Task) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{6}
+	return fileDescriptor_ffb07b0a572790a9, []int{2}
 }
 
 func (m *Task) XXX_Unmarshal(b []byte) error {
@@ -598,7 +366,7 @@ func (m *TaskProcessResponse) Reset()         { *m = TaskProcessResponse{} }
 func (m *TaskProcessResponse) String() string { return proto.CompactTextString(m) }
 func (*TaskProcessResponse) ProtoMessage()    {}
 func (*TaskProcessResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{7}
+	return fileDescriptor_ffb07b0a572790a9, []int{3}
 }
 
 func (m *TaskProcessResponse) XXX_Unmarshal(b []byte) error {
@@ -633,125 +401,156 @@ func (m *TaskProcessResponse) GetPt() TaskProcessResponse_PrepareType {
 	return TaskProcessResponse_SUCCESS
 }
 
-type TaskStartRequest struct {
+type TaskCommitRequest struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TaskStartRequest) Reset()         { *m = TaskStartRequest{} }
-func (m *TaskStartRequest) String() string { return proto.CompactTextString(m) }
-func (*TaskStartRequest) ProtoMessage()    {}
-func (*TaskStartRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{8}
+func (m *TaskCommitRequest) Reset()         { *m = TaskCommitRequest{} }
+func (m *TaskCommitRequest) String() string { return proto.CompactTextString(m) }
+func (*TaskCommitRequest) ProtoMessage()    {}
+func (*TaskCommitRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{4}
 }
 
-func (m *TaskStartRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TaskStartRequest.Unmarshal(m, b)
+func (m *TaskCommitRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TaskCommitRequest.Unmarshal(m, b)
 }
-func (m *TaskStartRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TaskStartRequest.Marshal(b, m, deterministic)
+func (m *TaskCommitRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TaskCommitRequest.Marshal(b, m, deterministic)
 }
-func (m *TaskStartRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TaskStartRequest.Merge(m, src)
+func (m *TaskCommitRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TaskCommitRequest.Merge(m, src)
 }
-func (m *TaskStartRequest) XXX_Size() int {
-	return xxx_messageInfo_TaskStartRequest.Size(m)
+func (m *TaskCommitRequest) XXX_Size() int {
+	return xxx_messageInfo_TaskCommitRequest.Size(m)
 }
-func (m *TaskStartRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_TaskStartRequest.DiscardUnknown(m)
+func (m *TaskCommitRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_TaskCommitRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_TaskStartRequest proto.InternalMessageInfo
+var xxx_messageInfo_TaskCommitRequest proto.InternalMessageInfo
 
-func (m *TaskStartRequest) GetId() string {
+func (m *TaskCommitRequest) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
 }
 
-type TaskStartResponse struct {
+type TaskCommitResponse struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TaskStartResponse) Reset()         { *m = TaskStartResponse{} }
-func (m *TaskStartResponse) String() string { return proto.CompactTextString(m) }
-func (*TaskStartResponse) ProtoMessage()    {}
-func (*TaskStartResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{9}
+func (m *TaskCommitResponse) Reset()         { *m = TaskCommitResponse{} }
+func (m *TaskCommitResponse) String() string { return proto.CompactTextString(m) }
+func (*TaskCommitResponse) ProtoMessage()    {}
+func (*TaskCommitResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{5}
 }
 
-func (m *TaskStartResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TaskStartResponse.Unmarshal(m, b)
+func (m *TaskCommitResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TaskCommitResponse.Unmarshal(m, b)
 }
-func (m *TaskStartResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TaskStartResponse.Marshal(b, m, deterministic)
+func (m *TaskCommitResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TaskCommitResponse.Marshal(b, m, deterministic)
 }
-func (m *TaskStartResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TaskStartResponse.Merge(m, src)
+func (m *TaskCommitResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TaskCommitResponse.Merge(m, src)
 }
-func (m *TaskStartResponse) XXX_Size() int {
-	return xxx_messageInfo_TaskStartResponse.Size(m)
+func (m *TaskCommitResponse) XXX_Size() int {
+	return xxx_messageInfo_TaskCommitResponse.Size(m)
 }
-func (m *TaskStartResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_TaskStartResponse.DiscardUnknown(m)
+func (m *TaskCommitResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_TaskCommitResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_TaskStartResponse proto.InternalMessageInfo
+var xxx_messageInfo_TaskCommitResponse proto.InternalMessageInfo
 
-func (m *TaskStartResponse) GetId() string {
+func (m *TaskCommitResponse) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
 }
 
-type PingRequest struct {
-	St                   PingRequest_StatueType `protobuf:"varint,1,opt,name=st,proto3,enum=protos.PingRequest_StatueType" json:"st,omitempty"`
-	Tasks                []string               `protobuf:"bytes,2,rep,name=tasks,proto3" json:"tasks,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+type StateRequest struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *PingRequest) Reset()         { *m = PingRequest{} }
-func (m *PingRequest) String() string { return proto.CompactTextString(m) }
-func (*PingRequest) ProtoMessage()    {}
-func (*PingRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{10}
+func (m *StateRequest) Reset()         { *m = StateRequest{} }
+func (m *StateRequest) String() string { return proto.CompactTextString(m) }
+func (*StateRequest) ProtoMessage()    {}
+func (*StateRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{6}
 }
 
-func (m *PingRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_PingRequest.Unmarshal(m, b)
+func (m *StateRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StateRequest.Unmarshal(m, b)
 }
-func (m *PingRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_PingRequest.Marshal(b, m, deterministic)
+func (m *StateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StateRequest.Marshal(b, m, deterministic)
 }
-func (m *PingRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PingRequest.Merge(m, src)
+func (m *StateRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StateRequest.Merge(m, src)
 }
-func (m *PingRequest) XXX_Size() int {
-	return xxx_messageInfo_PingRequest.Size(m)
+func (m *StateRequest) XXX_Size() int {
+	return xxx_messageInfo_StateRequest.Size(m)
 }
-func (m *PingRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_PingRequest.DiscardUnknown(m)
+func (m *StateRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_StateRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_PingRequest proto.InternalMessageInfo
+var xxx_messageInfo_StateRequest proto.InternalMessageInfo
 
-func (m *PingRequest) GetSt() PingRequest_StatueType {
+type StateResponse struct {
+	St                   StateResponse_StatueType `protobuf:"varint,1,opt,name=st,proto3,enum=protos.StateResponse_StatueType" json:"st,omitempty"`
+	Tasks                []string                 `protobuf:"bytes,2,rep,name=tasks,proto3" json:"tasks,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                 `json:"-"`
+	XXX_unrecognized     []byte                   `json:"-"`
+	XXX_sizecache        int32                    `json:"-"`
+}
+
+func (m *StateResponse) Reset()         { *m = StateResponse{} }
+func (m *StateResponse) String() string { return proto.CompactTextString(m) }
+func (*StateResponse) ProtoMessage()    {}
+func (*StateResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{7}
+}
+
+func (m *StateResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StateResponse.Unmarshal(m, b)
+}
+func (m *StateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StateResponse.Marshal(b, m, deterministic)
+}
+func (m *StateResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StateResponse.Merge(m, src)
+}
+func (m *StateResponse) XXX_Size() int {
+	return xxx_messageInfo_StateResponse.Size(m)
+}
+func (m *StateResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_StateResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StateResponse proto.InternalMessageInfo
+
+func (m *StateResponse) GetSt() StateResponse_StatueType {
 	if m != nil {
 		return m.St
 	}
-	return PingRequest_Busy
+	return StateResponse_Busy
 }
 
-func (m *PingRequest) GetTasks() []string {
+func (m *StateResponse) GetTasks() []string {
 	if m != nil {
 		return m.Tasks
 	}
@@ -759,77 +558,62 @@ func (m *PingRequest) GetTasks() []string {
 }
 
 func init() {
-	proto.RegisterEnum("protos.Message_MessageType", Message_MessageType_name, Message_MessageType_value)
 	proto.RegisterEnum("protos.Validator_ValidType", Validator_ValidType_name, Validator_ValidType_value)
 	proto.RegisterEnum("protos.Task_Method", Task_Method_name, Task_Method_value)
 	proto.RegisterEnum("protos.TaskProcessResponse_PrepareType", TaskProcessResponse_PrepareType_name, TaskProcessResponse_PrepareType_value)
-	proto.RegisterEnum("protos.PingRequest_StatueType", PingRequest_StatueType_name, PingRequest_StatueType_value)
-	proto.RegisterType((*MessageList)(nil), "protos.MessageList")
-	proto.RegisterType((*Message)(nil), "protos.Message")
-	proto.RegisterType((*RegisterRequest)(nil), "protos.RegisterRequest")
-	proto.RegisterType((*RegisterResponse)(nil), "protos.RegisterResponse")
+	proto.RegisterEnum("protos.StateResponse_StatueType", StateResponse_StatueType_name, StateResponse_StatueType_value)
 	proto.RegisterType((*TaskProcessRequest)(nil), "protos.TaskProcessRequest")
 	proto.RegisterType((*Validator)(nil), "protos.Validator")
 	proto.RegisterType((*Task)(nil), "protos.Task")
 	proto.RegisterType((*TaskProcessResponse)(nil), "protos.TaskProcessResponse")
-	proto.RegisterType((*TaskStartRequest)(nil), "protos.TaskStartRequest")
-	proto.RegisterType((*TaskStartResponse)(nil), "protos.TaskStartResponse")
-	proto.RegisterType((*PingRequest)(nil), "protos.PingRequest")
+	proto.RegisterType((*TaskCommitRequest)(nil), "protos.TaskCommitRequest")
+	proto.RegisterType((*TaskCommitResponse)(nil), "protos.TaskCommitResponse")
+	proto.RegisterType((*StateRequest)(nil), "protos.StateRequest")
+	proto.RegisterType((*StateResponse)(nil), "protos.StateResponse")
 }
 
 func init() { proto.RegisterFile("dister.proto", fileDescriptor_ffb07b0a572790a9) }
 
 var fileDescriptor_ffb07b0a572790a9 = []byte{
-	// 780 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x54, 0x5f, 0x6f, 0x23, 0x35,
-	0x10, 0xaf, 0x9d, 0xec, 0xb6, 0x99, 0xe4, 0x7a, 0xdb, 0x69, 0xef, 0x58, 0x38, 0x01, 0xc1, 0xe8,
-	0x44, 0xa4, 0x8a, 0x08, 0x05, 0x21, 0x24, 0x84, 0x90, 0x4a, 0x6f, 0xa9, 0x22, 0x7a, 0x69, 0xce,
-	0xbb, 0xe5, 0x35, 0xda, 0xcb, 0x5a, 0xed, 0xea, 0xb2, 0x7f, 0x58, 0x3b, 0x91, 0xf2, 0x8a, 0xc4,
-	0xf7, 0xe0, 0x8d, 0x2f, 0x01, 0x8f, 0x88, 0x2f, 0xc0, 0x07, 0x42, 0xf6, 0x7a, 0xd3, 0xbd, 0xc0,
-	0x3d, 0xcd, 0xcc, 0x6f, 0x66, 0xec, 0x9f, 0xc7, 0x3f, 0x1b, 0x06, 0x49, 0x2a, 0x95, 0xa8, 0xc6,
-	0x65, 0x55, 0xa8, 0x02, 0x5d, 0x63, 0x24, 0xfb, 0x06, 0xfa, 0x2f, 0x85, 0x94, 0xf1, 0x9d, 0xb8,
-	0x4e, 0xa5, 0xc2, 0x73, 0x38, 0xca, 0xea, 0x50, 0xfa, 0x64, 0xd8, 0x19, 0xf5, 0x27, 0x8f, 0xeb,
-	0x06, 0x39, 0xb6, 0x65, 0x7c, 0x57, 0xc0, 0xfe, 0xa1, 0x70, 0x68, 0x51, 0xfc, 0x0e, 0x06, 0x16,
-	0x5f, 0xa8, 0x6d, 0x29, 0x7c, 0x32, 0x24, 0xa3, 0xe3, 0xc9, 0xb3, 0xbd, 0xe6, 0xc6, 0x46, 0xdb,
-	0x52, 0xf0, 0x7e, 0xf6, 0x10, 0xe0, 0x73, 0x38, 0x5e, 0x16, 0x55, 0x25, 0x56, 0xb1, 0x4a, 0x8b,
-	0x7c, 0x91, 0x26, 0x3e, 0x1d, 0x92, 0x51, 0x8f, 0x3f, 0x6a, 0xa1, 0xd3, 0x04, 0x7d, 0x38, 0x5c,
-	0x16, 0xb9, 0x12, 0xb9, 0xf2, 0x3b, 0x43, 0x32, 0x1a, 0xf0, 0x26, 0x64, 0x7f, 0x93, 0xdd, 0x49,
-	0xcc, 0x82, 0x67, 0xe0, 0xf1, 0xe0, 0x6a, 0x1a, 0x46, 0x01, 0x5f, 0xf0, 0xe0, 0xd5, 0x6d, 0x10,
-	0x46, 0xde, 0x01, 0x3e, 0x81, 0x93, 0x16, 0x1a, 0xce, 0x6f, 0x66, 0x61, 0xe0, 0x11, 0xf4, 0xe1,
-	0x2c, 0xba, 0x08, 0x7f, 0x5c, 0xcc, 0xf9, 0xcd, 0x65, 0x10, 0x86, 0xbb, 0x06, 0x8a, 0xef, 0xc3,
-	0x93, 0xbd, 0x8c, 0x6d, 0xea, 0xe0, 0x53, 0x40, 0x93, 0x0a, 0xa3, 0x0b, 0x1e, 0xed, 0x5a, 0xba,
-	0xf8, 0x1e, 0x9c, 0xbe, 0x85, 0xdb, 0x06, 0x07, 0x4f, 0x60, 0x30, 0x9f, 0xce, 0xae, 0x76, 0xa5,
-	0x7f, 0x38, 0x88, 0xf0, 0xc8, 0x42, 0xb6, 0xea, 0x4f, 0x87, 0x7d, 0x05, 0x8f, 0xb9, 0xb8, 0x33,
-	0x97, 0xc5, 0xc5, 0xcf, 0x6b, 0x21, 0x15, 0x7a, 0xd0, 0x59, 0x96, 0x6b, 0x33, 0x54, 0x87, 0x6b,
-	0x57, 0x23, 0x99, 0xc8, 0xcc, 0x90, 0x1c, 0xae, 0x5d, 0xc6, 0xc0, 0x7b, 0x68, 0x93, 0x65, 0x91,
-	0x4b, 0x81, 0xc7, 0x40, 0xd3, 0xc4, 0xb4, 0xf5, 0x38, 0x4d, 0x13, 0xf6, 0x1b, 0x01, 0x8c, 0x62,
-	0xf9, 0x66, 0x5e, 0x15, 0x4b, 0x21, 0x65, 0xb3, 0xfc, 0x5e, 0x99, 0x9e, 0xb2, 0xba, 0xaf, 0x44,
-	0x9c, 0x48, 0xbb, 0x41, 0x13, 0xe2, 0xc7, 0xd0, 0x5f, 0x16, 0xeb, 0x5c, 0x2d, 0x56, 0x69, 0x96,
-	0xd6, 0x77, 0xe0, 0x70, 0x30, 0xd0, 0xb5, 0x46, 0xf0, 0x43, 0x00, 0x95, 0x66, 0xc2, 0xe6, 0xbb,
-	0x26, 0xdf, 0xd3, 0x48, 0x9d, 0x1e, 0x42, 0x57, 0xc5, 0xf2, 0x8d, 0xef, 0x0c, 0xc9, 0xa8, 0x3f,
-	0x19, 0x34, 0xf2, 0xd0, 0x9c, 0xb8, 0xc9, 0xb0, 0xdf, 0x09, 0xf4, 0x7e, 0x8a, 0x57, 0x69, 0x12,
-	0xab, 0xa2, 0x42, 0x84, 0x6e, 0x1e, 0x67, 0xc2, 0x72, 0x33, 0x3e, 0x9e, 0x03, 0xdd, 0x28, 0x43,
-	0xac, 0x25, 0xb0, 0x5d, 0x4b, 0xed, 0x19, 0x81, 0xd1, 0x8d, 0xc2, 0x33, 0x70, 0x36, 0xf1, 0x6a,
-	0x2d, 0x0c, 0xd5, 0x1e, 0xaf, 0x03, 0x76, 0x69, 0xf7, 0x30, 0x4a, 0x71, 0x81, 0x5e, 0x6b, 0x6d,
-	0x68, 0xab, 0xc5, 0xe0, 0x02, 0x0d, 0x5e, 0x79, 0x54, 0xdb, 0x99, 0xbe, 0x67, 0x17, 0xe8, 0x55,
-	0xe0, 0x75, 0x8d, 0x8d, 0x3c, 0x47, 0xdb, 0xe9, 0xcc, 0x73, 0xd9, 0x5f, 0x04, 0xba, 0x9a, 0xb8,
-	0xbe, 0x8b, 0x75, 0xb5, 0xb2, 0x1c, 0xb5, 0xab, 0x69, 0x97, 0xb1, 0xba, 0xb7, 0x1a, 0x36, 0x3e,
-	0x9e, 0x83, 0x9b, 0x09, 0x75, 0x5f, 0x24, 0x86, 0xca, 0xf1, 0xe4, 0xb4, 0x7d, 0xf8, 0xf1, 0x4b,
-	0x93, 0xe2, 0xb6, 0x44, 0x2f, 0xf0, 0xba, 0x48, 0xb6, 0x66, 0x80, 0x03, 0x6e, 0x7c, 0x7c, 0x0a,
-	0xae, 0x5c, 0x56, 0x69, 0xa9, 0xcc, 0xf4, 0x7a, 0xdc, 0x46, 0xf8, 0x09, 0xd0, 0x8d, 0xf4, 0x5d,
-	0xf3, 0x5a, 0x4f, 0xfe, 0x33, 0x0f, 0x4e, 0x37, 0x92, 0x3d, 0x03, 0xb7, 0xde, 0x00, 0x0f, 0xa1,
-	0x73, 0x15, 0xe8, 0xd3, 0x1e, 0x41, 0x77, 0x7e, 0x13, 0x46, 0x1e, 0x61, 0xbf, 0x12, 0x38, 0x7d,
-	0x4b, 0x14, 0xff, 0x2f, 0x1e, 0xfc, 0x1a, 0x68, 0xd9, 0xcc, 0xfd, 0xb3, 0x36, 0xf9, 0xbd, 0xc6,
-	0xf1, 0xbc, 0x12, 0x65, 0x5c, 0xd5, 0x8f, 0x9c, 0x96, 0x8a, 0x3d, 0x87, 0x7e, 0x0b, 0xc2, 0x3e,
-	0x1c, 0x86, 0xb7, 0x97, 0xfa, 0x35, 0x79, 0x07, 0xd8, 0x03, 0xe7, 0x87, 0x8b, 0xe9, 0xf5, 0x0b,
-	0x8f, 0x68, 0x01, 0xeb, 0xd5, 0x42, 0x15, 0x57, 0xea, 0x1d, 0xca, 0x64, 0x9f, 0xc2, 0x49, 0xab,
-	0xe6, 0x1d, 0x2a, 0xff, 0x85, 0x40, 0x7f, 0x9e, 0xe6, 0x77, 0xcd, 0x22, 0x63, 0xa0, 0x52, 0xd9,
-	0x1f, 0xe9, 0xa3, 0x86, 0x78, 0xab, 0x60, 0x1c, 0xaa, 0x58, 0xad, 0x2d, 0x5f, 0x69, 0x34, 0xa3,
-	0xa5, 0xa8, 0xc5, 0xdf, 0xd1, 0x9a, 0x31, 0x01, 0xfb, 0x1c, 0xe0, 0xa1, 0x4e, 0x8f, 0xef, 0xfb,
-	0xb5, 0xdc, 0xd6, 0x83, 0x9c, 0x26, 0x2b, 0xe1, 0x11, 0x7d, 0xb0, 0xdb, 0x9c, 0x8b, 0x38, 0xd9,
-	0x7a, 0x74, 0xf2, 0x2d, 0xb8, 0x2f, 0xcc, 0x63, 0xc4, 0x09, 0x1c, 0x55, 0xf6, 0x61, 0xe2, 0xfe,
-	0x6f, 0xfa, 0xc1, 0x3e, 0xc0, 0x0e, 0x46, 0xe4, 0x0b, 0xf2, 0xba, 0xfe, 0x9e, 0xbf, 0xfc, 0x37,
-	0x00, 0x00, 0xff, 0xff, 0xf9, 0xb0, 0x64, 0x08, 0xb5, 0x05, 0x00, 0x00,
+	// 596 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x54, 0xdf, 0x6e, 0xd3, 0x3e,
+	0x14, 0xae, 0xdd, 0x36, 0xfd, 0xe5, 0xb4, 0xbf, 0xca, 0xf3, 0x06, 0x2a, 0x9d, 0x10, 0xc1, 0x80,
+	0xa8, 0x34, 0x51, 0xa1, 0x20, 0xc1, 0xf5, 0xe8, 0xc2, 0x34, 0x69, 0x8c, 0xe1, 0x76, 0xdc, 0xa2,
+	0xac, 0xb1, 0xb4, 0x68, 0x4d, 0x13, 0x62, 0xa7, 0x52, 0x1f, 0x00, 0x9e, 0x83, 0x3b, 0x9e, 0x84,
+	0x0b, 0xde, 0x0a, 0xf9, 0x24, 0x1d, 0xed, 0x56, 0xb8, 0x3a, 0xff, 0x4f, 0xbe, 0xf3, 0xf5, 0x73,
+	0xa1, 0x13, 0xc5, 0xda, 0xa8, 0x7c, 0x98, 0xe5, 0xa9, 0x49, 0xb9, 0x83, 0x46, 0x8b, 0xef, 0x04,
+	0xf8, 0x24, 0xd4, 0xd7, 0xe7, 0x79, 0x3a, 0x55, 0x5a, 0x4b, 0xf5, 0xa5, 0x50, 0xda, 0xf0, 0x2e,
+	0xd0, 0x38, 0xea, 0x11, 0x8f, 0x0c, 0x5c, 0x49, 0xe3, 0x88, 0xf7, 0xa0, 0x65, 0xae, 0x72, 0x15,
+	0x46, 0xba, 0x47, 0x3d, 0x32, 0x68, 0xca, 0x55, 0xc8, 0x1f, 0x41, 0x7b, 0x9a, 0x16, 0x73, 0xf3,
+	0x79, 0x16, 0x27, 0xb1, 0xe9, 0xd5, 0xb1, 0x0a, 0x98, 0x3a, 0xb5, 0x19, 0xfe, 0x10, 0xc0, 0xc4,
+	0x89, 0xaa, 0xea, 0x0d, 0xac, 0xbb, 0x36, 0x53, 0x96, 0x3d, 0x68, 0x98, 0x50, 0x5f, 0xf7, 0x9a,
+	0x1e, 0x19, 0xb4, 0xfd, 0x4e, 0x09, 0x4f, 0x0f, 0x2d, 0x26, 0x89, 0x15, 0xf1, 0x83, 0x80, 0xfb,
+	0x29, 0x9c, 0xc5, 0x51, 0x68, 0xd2, 0x9c, 0x73, 0x68, 0xcc, 0xc3, 0x44, 0x55, 0xd8, 0xd0, 0xe7,
+	0x07, 0x40, 0x17, 0x06, 0x81, 0x75, 0xfd, 0xfd, 0xd5, 0x86, 0x9b, 0x91, 0xd2, 0x9b, 0x2c, 0x33,
+	0x25, 0xe9, 0xc2, 0xf0, 0x3d, 0x68, 0x2e, 0xc2, 0x59, 0xa1, 0x10, 0xaa, 0x2b, 0xcb, 0x40, 0x8c,
+	0xaa, 0x6f, 0xd8, 0x36, 0xee, 0x00, 0x3d, 0x9d, 0xb0, 0x1a, 0xda, 0x80, 0x11, 0x6b, 0x83, 0x8f,
+	0x8c, 0x5a, 0x7b, 0x16, 0xb0, 0xba, 0xb5, 0xc7, 0x01, 0x6b, 0xa0, 0x9d, 0xb0, 0xa6, 0xb5, 0x27,
+	0x67, 0xcc, 0x11, 0x3f, 0x09, 0x34, 0x2c, 0x70, 0xce, 0xa0, 0x5e, 0xe4, 0xb3, 0x0a, 0xa3, 0x75,
+	0x2d, 0xec, 0x2c, 0x34, 0x57, 0x08, 0xd2, 0x95, 0xe8, 0xf3, 0x03, 0x70, 0x12, 0x65, 0xae, 0xd2,
+	0x08, 0xa1, 0x74, 0xfd, 0xdd, 0xf5, 0xe3, 0x87, 0xef, 0xb1, 0x24, 0xab, 0x16, 0xbb, 0xe0, 0x32,
+	0x8d, 0x96, 0x48, 0x60, 0x47, 0xa2, 0xcf, 0xef, 0x83, 0xa3, 0xa7, 0x79, 0x9c, 0x19, 0x64, 0xcf,
+	0x95, 0x55, 0xc4, 0x1f, 0x03, 0x5d, 0xe8, 0x9e, 0xe3, 0xd5, 0x07, 0x6d, 0x7f, 0xe7, 0x0e, 0x1f,
+	0x92, 0x2e, 0xb4, 0xd8, 0x07, 0xa7, 0xfc, 0x00, 0x6f, 0x41, 0xfd, 0x38, 0xb0, 0xd7, 0xfe, 0x07,
+	0x8d, 0xf3, 0x0f, 0xe3, 0x09, 0x23, 0xe2, 0x2b, 0x81, 0xdd, 0x0d, 0x51, 0xe8, 0x2c, 0x9d, 0x6b,
+	0x75, 0x47, 0x15, 0x6f, 0x80, 0x66, 0x2b, 0xde, 0x9f, 0xaf, 0x83, 0xbf, 0x35, 0x38, 0x3c, 0xcf,
+	0x55, 0x16, 0xe6, 0xaa, 0xfc, 0x0d, 0x32, 0x23, 0x9e, 0x41, 0x7b, 0x2d, 0xc5, 0xdb, 0xd0, 0x1a,
+	0x5f, 0x8c, 0x46, 0xc1, 0x78, 0xcc, 0x6a, 0xdc, 0x85, 0xe6, 0xbb, 0xc3, 0x93, 0xd3, 0x23, 0x46,
+	0xc4, 0x13, 0xd8, 0xb1, 0xdb, 0x46, 0x69, 0x92, 0xc4, 0xe6, 0x2f, 0xd2, 0x14, 0x4f, 0x4b, 0x01,
+	0xaf, 0x9a, 0xb6, 0x43, 0x15, 0x5d, 0xe8, 0x8c, 0x4d, 0x68, 0x54, 0xb5, 0x45, 0x7c, 0x23, 0xf0,
+	0x7f, 0x95, 0xa8, 0x26, 0x5e, 0x02, 0xd5, 0x06, 0x27, 0xba, 0xbe, 0xb7, 0x3a, 0x66, 0xa3, 0x05,
+	0xa3, 0xa2, 0xba, 0x42, 0xa3, 0x92, 0xac, 0x40, 0xed, 0x93, 0xa8, 0x5b, 0x25, 0x61, 0x20, 0x5e,
+	0x00, 0xfc, 0xe9, 0xb3, 0xa4, 0xbe, 0x2d, 0xf4, 0xb2, 0xa4, 0xf7, 0x24, 0x9a, 0x29, 0x46, 0xec,
+	0xb9, 0x17, 0x73, 0xa9, 0xc2, 0x68, 0xc9, 0xa8, 0xff, 0x8b, 0x80, 0x73, 0x84, 0x2f, 0x93, 0x1f,
+	0x41, 0x2b, 0x2b, 0x59, 0xe1, 0xfd, 0xad, 0x6c, 0x22, 0xf4, 0xfe, 0xfe, 0x3f, 0x98, 0x16, 0x35,
+	0x7e, 0x08, 0xce, 0x14, 0xb9, 0xe0, 0x0f, 0xd6, 0x1b, 0x37, 0x48, 0xec, 0xf7, 0xb7, 0x95, 0x6e,
+	0x56, 0xbc, 0x86, 0xa6, 0xb6, 0x87, 0xf3, 0xbd, 0x5b, 0x3c, 0x94, 0xc3, 0xf7, 0xb6, 0xb2, 0x23,
+	0x6a, 0x97, 0xe5, 0x9f, 0xca, 0xab, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xca, 0xa7, 0x3b, 0x9b,
+	0x6b, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -844,7 +628,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DisterClient interface {
-	Register(ctx context.Context, opts ...grpc.CallOption) (Dister_RegisterClient, error)
+	Prepare(ctx context.Context, in *TaskProcessRequest, opts ...grpc.CallOption) (*TaskProcessResponse, error)
+	Commit(ctx context.Context, in *TaskCommitRequest, opts ...grpc.CallOption) (*TaskCommitResponse, error)
+	State(ctx context.Context, in *StateRequest, opts ...grpc.CallOption) (*StateResponse, error)
 }
 
 type disterClient struct {
@@ -855,91 +641,129 @@ func NewDisterClient(cc *grpc.ClientConn) DisterClient {
 	return &disterClient{cc}
 }
 
-func (c *disterClient) Register(ctx context.Context, opts ...grpc.CallOption) (Dister_RegisterClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Dister_serviceDesc.Streams[0], "/protos.Dister/register", opts...)
+func (c *disterClient) Prepare(ctx context.Context, in *TaskProcessRequest, opts ...grpc.CallOption) (*TaskProcessResponse, error) {
+	out := new(TaskProcessResponse)
+	err := c.cc.Invoke(ctx, "/protos.Dister/prepare", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &disterRegisterClient{stream}
-	return x, nil
+	return out, nil
 }
 
-type Dister_RegisterClient interface {
-	Send(*Message) error
-	Recv() (*Message, error)
-	grpc.ClientStream
-}
-
-type disterRegisterClient struct {
-	grpc.ClientStream
-}
-
-func (x *disterRegisterClient) Send(m *Message) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *disterRegisterClient) Recv() (*Message, error) {
-	m := new(Message)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
+func (c *disterClient) Commit(ctx context.Context, in *TaskCommitRequest, opts ...grpc.CallOption) (*TaskCommitResponse, error) {
+	out := new(TaskCommitResponse)
+	err := c.cc.Invoke(ctx, "/protos.Dister/commit", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	return m, nil
+	return out, nil
+}
+
+func (c *disterClient) State(ctx context.Context, in *StateRequest, opts ...grpc.CallOption) (*StateResponse, error) {
+	out := new(StateResponse)
+	err := c.cc.Invoke(ctx, "/protos.Dister/state", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 // DisterServer is the server API for Dister service.
 type DisterServer interface {
-	Register(Dister_RegisterServer) error
+	Prepare(context.Context, *TaskProcessRequest) (*TaskProcessResponse, error)
+	Commit(context.Context, *TaskCommitRequest) (*TaskCommitResponse, error)
+	State(context.Context, *StateRequest) (*StateResponse, error)
 }
 
 // UnimplementedDisterServer can be embedded to have forward compatible implementations.
 type UnimplementedDisterServer struct {
 }
 
-func (*UnimplementedDisterServer) Register(srv Dister_RegisterServer) error {
-	return status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (*UnimplementedDisterServer) Prepare(ctx context.Context, req *TaskProcessRequest) (*TaskProcessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Prepare not implemented")
+}
+func (*UnimplementedDisterServer) Commit(ctx context.Context, req *TaskCommitRequest) (*TaskCommitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Commit not implemented")
+}
+func (*UnimplementedDisterServer) State(ctx context.Context, req *StateRequest) (*StateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method State not implemented")
 }
 
 func RegisterDisterServer(s *grpc.Server, srv DisterServer) {
 	s.RegisterService(&_Dister_serviceDesc, srv)
 }
 
-func _Dister_Register_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(DisterServer).Register(&disterRegisterServer{stream})
-}
-
-type Dister_RegisterServer interface {
-	Send(*Message) error
-	Recv() (*Message, error)
-	grpc.ServerStream
-}
-
-type disterRegisterServer struct {
-	grpc.ServerStream
-}
-
-func (x *disterRegisterServer) Send(m *Message) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *disterRegisterServer) Recv() (*Message, error) {
-	m := new(Message)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
+func _Dister_Prepare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskProcessRequest)
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	return m, nil
+	if interceptor == nil {
+		return srv.(DisterServer).Prepare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.Dister/Prepare",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DisterServer).Prepare(ctx, req.(*TaskProcessRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dister_Commit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskCommitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DisterServer).Commit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.Dister/Commit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DisterServer).Commit(ctx, req.(*TaskCommitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dister_State_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DisterServer).State(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.Dister/State",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DisterServer).State(ctx, req.(*StateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Dister_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "protos.Dister",
 	HandlerType: (*DisterServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
+	Methods: []grpc.MethodDesc{
 		{
-			StreamName:    "register",
-			Handler:       _Dister_Register_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
+			MethodName: "prepare",
+			Handler:    _Dister_Prepare_Handler,
+		},
+		{
+			MethodName: "commit",
+			Handler:    _Dister_Commit_Handler,
+		},
+		{
+			MethodName: "state",
+			Handler:    _Dister_State_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "dister.proto",
 }
