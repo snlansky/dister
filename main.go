@@ -5,6 +5,7 @@ import (
 	"dister/worker"
 	"log"
 	"os"
+	"github.com/snlansky/glibs/logging"
 
 	"github.com/urfave/cli"
 )
@@ -69,6 +70,14 @@ func main() {
 	app.Usage = "application usage"
 	app.Description = "distribution tester" // 描述
 	app.Version = "1.0.0"                   // 版本
+
+	{
+		logging.Init(logging.Config{
+			Format:  "",
+			Writer:  os.Stderr,
+			LogSpec: "",
+		})
+	}
 
 	err := app.Run(os.Args)
 	if err != nil {

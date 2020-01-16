@@ -20,3 +20,15 @@ func (man *Manager) AddWorker(worker *Worker) {
 	defer man.mu.Unlock()
 	man.workers[worker.id] = worker
 }
+
+func (man *Manager) DeleteWorker(id string) *Worker {
+	man.mu.Lock()
+	defer man.mu.Unlock()
+
+	if w, ok := man.workers[id]; ok {
+		delete(man.workers, id)
+		return w
+	} else {
+		return nil
+	}
+}

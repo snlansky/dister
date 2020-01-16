@@ -19,7 +19,10 @@ func (s *Service) Commit(ctx context.Context,req *protos.TaskCommitRequest) (*pr
 }
 
 func (s *Service) State(ctx context.Context,req *protos.StateRequest) (*protos.StateResponse, error) {
-	panic("implement me")
+	return &protos.StateResponse{
+		St:                   protos.StateResponse_Idle,
+		Tasks:                []string{},
+	}, nil
 }
 
 func NewService() protos.DisterServer {

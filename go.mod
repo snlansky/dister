@@ -11,6 +11,7 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
+	github.com/snlansky/glibs v0.0.0-20191225090240-d0602d1aaa0e
 	github.com/stretchr/testify v1.4.0
 	github.com/urfave/cli v1.22.2
 	github.com/yuin/gluamapper v0.0.0-20150323120927-d836955830e7

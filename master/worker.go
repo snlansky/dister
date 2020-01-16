@@ -2,9 +2,9 @@ package master
 
 import (
 	"dister/protos"
-	"dister/utils"
+	"dister/worker"
 	"google.golang.org/grpc"
-	"log"
+	"time"
 )
 
 type Worker struct {
@@ -14,23 +14,47 @@ type Worker struct {
 	tasks  []string
 	status protos.StateResponse_StatueType
 	conn   *grpc.ClientConn
+	closeC chan struct{}
 }
 
-func NewWorker(conn *grpc.ClientConn) *Worker {
+func NewWorker(id string, conn *grpc.ClientConn) *Worker {
 	return &Worker{
-		id:     utils.RandStringRunes(8),
+		id:     id,
 		cpu:    0,
 		mem:    0,
 		tasks:  []string{},
 		status: protos.StateResponse_UnReady,
 		conn:   conn,
+		closeC: make(chan struct{}),
 	}
 }
 
 func (w *Worker) Start() error {
-	defer func() {
-		// todo
-		log.Print("closed .....")
-	}()
-	return nil
+	for {
+		tick := time.NewTicker(time.Second)
+		select {
+		case <-tick.C:
+			state, err := worker.State(w.conn, &protos.StateRequest{})
+			if err != nil {
+				return err
+			}
+			w.tasks = state.Tasks
+			w.status = state.St
+		case <- w.closeC:
+			return nil
+		}
+	}
+}
+
+func (w *Worker) Prepare(req *protos.TaskProcessRequest) (*protos.TaskProcessResponse, error) {
+	return worker.Prepare(w.conn, req)
+}
+
+func (w *Worker) Commit(req *protos.TaskCommitRequest) (*protos.TaskCommitResponse, error) {
+	return worker.Commit(w.conn, req)
+}
+
+func (w *Worker) Close() {
+	close(w.closeC)
+	w.conn.Close()
 }
