@@ -34,14 +34,14 @@ func (r *consulResolver) Resolve(target string) (naming.Watcher, error) {
 	return &consulWatcher{
 		client:  client,
 		service: r.service,
-		addrs:   map[string]struct{}{},
+		addrs:   map[string]*api.AgentService{},
 	}, nil
 }
 
 type consulWatcher struct {
 	client    *api.Client
 	service   string
-	addrs     map[string]struct{}
+	addrs     map[string]*api.AgentService
 	lastIndex uint64
 }
 
@@ -52,24 +52,25 @@ func (w *consulWatcher) Next() ([]*naming.Update, error) {
 		})
 		if err != nil {
 			logrus.Warn("error retrieving instances from Consul: %v", err)
+			continue
 		}
 		w.lastIndex = metainfo.LastIndex
 
-		addrs := map[string]struct{}{}
+		addrs := map[string]*api.AgentService{}
 		for _, service := range services {
-			addrs[net.JoinHostPort(service.Service.Address, strconv.Itoa(service.Service.Port))] = struct{}{}
+			addrs[net.JoinHostPort(service.Service.Address, strconv.Itoa(service.Service.Port))] = service.Service
 		}
 
 		var updates []*naming.Update
 		for addr := range w.addrs {
-			if _, ok := addrs[addr]; !ok {
-				updates = append(updates, &naming.Update{Op: naming.Delete, Addr: addr})
+			if service, ok := addrs[addr]; !ok {
+				updates = append(updates, &naming.Update{Op: naming.Delete, Addr: addr, Metadata: service})
 			}
 		}
 
 		for addr := range addrs {
-			if _, ok := w.addrs[addr]; !ok {
-				updates = append(updates, &naming.Update{Op: naming.Add, Addr: addr})
+			if service, ok := w.addrs[addr]; !ok {
+				updates = append(updates, &naming.Update{Op: naming.Add, Addr: addr, Metadata: service})
 			}
 		}
 

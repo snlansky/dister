@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"log"
 	"net"
+	"strconv"
 )
 
 func Start(c *cli.Context) error {
@@ -21,7 +22,11 @@ func Start(c *cli.Context) error {
 	}()
 
 	consul := c.String("consul")
-	register, err := grpcsr.NewConsulRegister(consul, "worker", port)
+	meta := map[string]string{
+		"cpu": strconv.Itoa(4),
+		"mem": strconv.Itoa(16),
+	}
+	register, err := grpcsr.NewConsulRegister(consul, "worker", port, nil, meta)
 	if err != nil {
 		return err
 	}
@@ -47,7 +52,7 @@ func startGRPC(address string) error {
 	svc := NewService()
 
 	protos.RegisterDisterServer(srv, svc)
-	grpc_health_v1.RegisterHealthServer(srv, &HealthImpl{})
+	grpc_health_v1.RegisterHealthServer(srv, &grpcsr.HealthImpl{})
 
 	return srv.Serve(lis)
 }

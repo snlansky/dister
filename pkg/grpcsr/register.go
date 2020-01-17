@@ -9,7 +9,7 @@ import (
 )
 
 // NewConsulRegister create a new consul register
-func NewConsulRegister(addr string, svc string, port int, tag ...string) (*ConsulRegister, error) {
+func NewConsulRegister(addr string, svc string, port int, tag []string, meta map[string]string) (*ConsulRegister, error) {
 	config := api.DefaultConfig()
 	config.Address = addr
 	client, err := api.NewClient(config)
@@ -17,18 +17,19 @@ func NewConsulRegister(addr string, svc string, port int, tag ...string) (*Consu
 		return nil, err
 	}
 
-	IP := localIP()
+	ip := localIP()
 	deregisterCriticalServiceAfter := time.Duration(1) * time.Minute
 	interval := time.Duration(10) * time.Second
 	reg := &api.AgentServiceRegistration{
-		ID:      fmt.Sprintf("%v-%v-%v", svc, IP, port), // 服务节点的名称
+		ID:      fmt.Sprintf("%v-%v-%v", svc, ip, port), // 服务节点的名称
 		Name:    fmt.Sprintf("grpc.health.v1.%v", svc),  // 服务名称
 		Tags:    tag,                                    // tag，可以为空
 		Port:    port,                                   // 服务端口
-		Address: IP,                                     // 服务 IP
+		Address: ip,                                     // 服务 IP
+		Meta:    meta,
 		Check: &api.AgentServiceCheck{ // 健康检查
 			Interval:                       interval.String(),                       // 健康检查间隔
-			GRPC:                           fmt.Sprintf("%v:%v/%v", IP, port, svc),  // grpc 支持，执行健康检查的地址，service 会传到 Health.Check 函数中
+			GRPC:                           fmt.Sprintf("%v:%v/%v", ip, port, svc),  // grpc 支持，执行健康检查的地址，service 会传到 Health.Check 函数中
 			DeregisterCriticalServiceAfter: deregisterCriticalServiceAfter.String(), // 注销时间，相当于过期时间
 		},
 	}

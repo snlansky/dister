@@ -52,7 +52,7 @@ func startCron(manager *Manager) error {
 	for {
 		select {
 		case <-ticker:
-			fmt.Println("run task ...")
+			//fmt.Println("run task ...")
 			time.Sleep(time.Second * 5)
 			ticker = time.After(time.Second * 2)
 		}
@@ -81,6 +81,7 @@ func startDiscover(consul string, manager *Manager) error {
 					logger.Errorf("connect worker [%s] error", svc.Addr)
 					continue
 				}
+				fmt.Println("---", svc.Metadata)
 				worker := NewWorker(svc.Addr, conn)
 				manager.AddWorker(worker)
 				logger.Infof("add worker [%s]", svc.Addr)
