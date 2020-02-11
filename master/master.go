@@ -2,6 +2,7 @@ package master
 
 import (
 	"dister/pkg/grpcsr"
+	"dister/protos"
 	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/naming"
@@ -21,13 +22,14 @@ func Start(c *cli.Context) error {
 	fatal := make(chan error)
 
 	man := NewManager()
+	svc := &TaskService{rep: &MemoryTestRepository{v: map[string]*protos.TaskData{}}}
 
 	go func() {
-		fatal <- startHttp(c.String("http_address"))
+		fatal <- startHttp(c.String("http_address"), svc)
 	}()
 
 	go func() {
-		fatal <- startCron(man)
+		fatal <- startCron(man, svc)
 	}()
 
 	go func() {
@@ -37,27 +39,53 @@ func Start(c *cli.Context) error {
 	return <-fatal
 }
 
-func startHttp(address string) error {
+func startHttp(address string, svc *TaskService) error {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
+
+	ctrl := &Controller{svc:svc}
+	api := r.Group("/api")
+	{
+		api.GET("/ping", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "pong",
+			})
 		})
-	})
+		api.POST("/test", ctrl.addTest)
+	}
 	return r.Run(address)
 }
 
-func startCron(manager *Manager) error {
+func startCron(manager *Manager, svc *TaskService) error {
 	ticker := time.After(time.Second * 2)
 	for {
 		select {
 		case <-ticker:
-			//fmt.Println("run task ...")
-			time.Sleep(time.Second * 5)
+			tasks, err := svc.FindTask()
+			if err != nil {
+				return err
+			}
+			for _, t := range tasks {
+				go func() {
+					if t.Threads == 0 {
+						worker := manager.GetRandWorker()
+						logger.Infof("start task [%s], at worker %s", t.Id, worker.id)
+						task, err := worker.UnitTest(t)
+						if err != nil {
+							logger.Errorf("run task [%s], at worker [%s], error: %v", t.Id, worker.id, err)
+							return
+						}
+						if task != nil {
+							err := svc.UpdateTask(task)
+							if err != nil {
+								logger.Errorf("update task [%v], error: %v", task, err)
+							}
+						}
+					}
+				}()
+			}
 			ticker = time.After(time.Second * 2)
 		}
 	}
-	return nil
 }
 
 func startDiscover(consul string, manager *Manager) error {
@@ -81,7 +109,6 @@ func startDiscover(consul string, manager *Manager) error {
 					logger.Errorf("connect worker [%s] error", svc.Addr)
 					continue
 				}
-				fmt.Println("---", svc.Metadata)
 				worker := NewWorker(svc.Addr, conn)
 				manager.AddWorker(worker)
 				logger.Infof("add worker [%s]", svc.Addr)

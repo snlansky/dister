@@ -9,7 +9,16 @@ import (
 type Service struct {
 }
 
-func (s *Service) Prepare(ctx context.Context,req *protos.TaskProcessRequest) (*protos.TaskProcessResponse, error) {
+func (s *Service) Unit(ctx context.Context, task *protos.TaskData) (*protos.TaskData, error) {
+	fmt.Println("start unit")
+	task.Result = &protos.Result{
+		Code:                 200,
+		Msg:                  "ok",
+	}
+	return task, nil
+}
+
+func (s *Service) Prepare(ctx context.Context,req *protos.TaskData) (*protos.TaskProcessResponse, error) {
 	panic("implement me")
 }
 

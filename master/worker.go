@@ -40,13 +40,17 @@ func (w *Worker) Start() error {
 			}
 			w.tasks = state.Tasks
 			w.status = state.St
-		case <- w.closeC:
+		case <-w.closeC:
 			return nil
 		}
 	}
 }
 
-func (w *Worker) Prepare(req *protos.TaskProcessRequest) (*protos.TaskProcessResponse, error) {
+func (w *Worker) UnitTest(req *protos.TaskData) (*protos.TaskData, error) {
+	return worker.UnitTest(w.conn, req)
+}
+
+func (w *Worker) Prepare(req *protos.TaskData) (*protos.TaskProcessResponse, error) {
 	return worker.Prepare(w.conn, req)
 }
 

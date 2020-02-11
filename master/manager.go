@@ -1,6 +1,7 @@
 package master
 
 import (
+	"math/rand"
 	"sync"
 )
 
@@ -31,4 +32,19 @@ func (man *Manager) DeleteWorker(id string) *Worker {
 	} else {
 		return nil
 	}
+}
+
+func (man *Manager) GetRandWorker() *Worker {
+	man.mu.Lock()
+	defer man.mu.Unlock()
+
+	index := rand.Intn(len(man.workers))
+	i := 0
+	for _, w :=range man.workers {
+		if index == i {
+			return w
+		}
+		i++
+	}
+	return nil
 }

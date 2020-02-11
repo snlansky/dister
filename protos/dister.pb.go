@@ -68,7 +68,7 @@ func (x Validator_ValidType) String() string {
 }
 
 func (Validator_ValidType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{1, 0}
+	return fileDescriptor_ffb07b0a572790a9, []int{0, 0}
 }
 
 type Task_Method int32
@@ -93,32 +93,32 @@ func (x Task_Method) String() string {
 }
 
 func (Task_Method) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{2, 0}
+	return fileDescriptor_ffb07b0a572790a9, []int{1, 0}
 }
 
-type TaskProcessResponse_PrepareType int32
+type Result_Code int32
 
 const (
-	TaskProcessResponse_SUCCESS TaskProcessResponse_PrepareType = 0
-	TaskProcessResponse_FAILD   TaskProcessResponse_PrepareType = 1
+	Result_SUCCESS Result_Code = 0
+	Result_FAILD   Result_Code = 1
 )
 
-var TaskProcessResponse_PrepareType_name = map[int32]string{
+var Result_Code_name = map[int32]string{
 	0: "SUCCESS",
 	1: "FAILD",
 }
 
-var TaskProcessResponse_PrepareType_value = map[string]int32{
+var Result_Code_value = map[string]int32{
 	"SUCCESS": 0,
 	"FAILD":   1,
 }
 
-func (x TaskProcessResponse_PrepareType) String() string {
-	return proto.EnumName(TaskProcessResponse_PrepareType_name, int32(x))
+func (x Result_Code) String() string {
+	return proto.EnumName(Result_Code_name, int32(x))
 }
 
-func (TaskProcessResponse_PrepareType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{3, 0}
+func (Result_Code) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{2, 0}
 }
 
 type StateResponse_StatueType int32
@@ -146,78 +146,7 @@ func (x StateResponse_StatueType) String() string {
 }
 
 func (StateResponse_StatueType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{7, 0}
-}
-
-type TaskProcessRequest struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Threads              int32    `protobuf:"varint,2,opt,name=threads,proto3" json:"threads,omitempty"`
-	CountLimit           int32    `protobuf:"varint,3,opt,name=count_limit,json=countLimit,proto3" json:"count_limit,omitempty"`
-	TimeLimit            int32    `protobuf:"varint,4,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`
-	Task                 *Task    `protobuf:"bytes,5,opt,name=task,proto3" json:"task,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *TaskProcessRequest) Reset()         { *m = TaskProcessRequest{} }
-func (m *TaskProcessRequest) String() string { return proto.CompactTextString(m) }
-func (*TaskProcessRequest) ProtoMessage()    {}
-func (*TaskProcessRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{0}
-}
-
-func (m *TaskProcessRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TaskProcessRequest.Unmarshal(m, b)
-}
-func (m *TaskProcessRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TaskProcessRequest.Marshal(b, m, deterministic)
-}
-func (m *TaskProcessRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TaskProcessRequest.Merge(m, src)
-}
-func (m *TaskProcessRequest) XXX_Size() int {
-	return xxx_messageInfo_TaskProcessRequest.Size(m)
-}
-func (m *TaskProcessRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_TaskProcessRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_TaskProcessRequest proto.InternalMessageInfo
-
-func (m *TaskProcessRequest) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *TaskProcessRequest) GetThreads() int32 {
-	if m != nil {
-		return m.Threads
-	}
-	return 0
-}
-
-func (m *TaskProcessRequest) GetCountLimit() int32 {
-	if m != nil {
-		return m.CountLimit
-	}
-	return 0
-}
-
-func (m *TaskProcessRequest) GetTimeLimit() int32 {
-	if m != nil {
-		return m.TimeLimit
-	}
-	return 0
-}
-
-func (m *TaskProcessRequest) GetTask() *Task {
-	if m != nil {
-		return m.Task
-	}
-	return nil
+	return fileDescriptor_ffb07b0a572790a9, []int{8, 0}
 }
 
 type Validator struct {
@@ -233,7 +162,7 @@ func (m *Validator) Reset()         { *m = Validator{} }
 func (m *Validator) String() string { return proto.CompactTextString(m) }
 func (*Validator) ProtoMessage()    {}
 func (*Validator) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{1}
+	return fileDescriptor_ffb07b0a572790a9, []int{0}
 }
 
 func (m *Validator) XXX_Unmarshal(b []byte) error {
@@ -291,7 +220,7 @@ func (m *Task) Reset()         { *m = Task{} }
 func (m *Task) String() string { return proto.CompactTextString(m) }
 func (*Task) ProtoMessage()    {}
 func (*Task) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{2}
+	return fileDescriptor_ffb07b0a572790a9, []int{1}
 }
 
 func (m *Task) XXX_Unmarshal(b []byte) error {
@@ -354,19 +283,161 @@ func (m *Task) GetVs() []*Validator {
 	return nil
 }
 
+type Result struct {
+	Code                 Result_Code `protobuf:"varint,2,opt,name=code,proto3,enum=protos.Result_Code" json:"code,omitempty"`
+	Msg                  string      `protobuf:"bytes,3,opt,name=msg,proto3" json:"msg,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *Result) Reset()         { *m = Result{} }
+func (m *Result) String() string { return proto.CompactTextString(m) }
+func (*Result) ProtoMessage()    {}
+func (*Result) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{2}
+}
+
+func (m *Result) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Result.Unmarshal(m, b)
+}
+func (m *Result) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Result.Marshal(b, m, deterministic)
+}
+func (m *Result) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Result.Merge(m, src)
+}
+func (m *Result) XXX_Size() int {
+	return xxx_messageInfo_Result.Size(m)
+}
+func (m *Result) XXX_DiscardUnknown() {
+	xxx_messageInfo_Result.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Result proto.InternalMessageInfo
+
+func (m *Result) GetCode() Result_Code {
+	if m != nil {
+		return m.Code
+	}
+	return Result_SUCCESS
+}
+
+func (m *Result) GetMsg() string {
+	if m != nil {
+		return m.Msg
+	}
+	return ""
+}
+
+type TaskData struct {
+	Id      string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Threads int32  `protobuf:"varint,2,opt,name=threads,proto3" json:"threads,omitempty"`
+	// 延迟多少秒执行
+	Delay                int64    `protobuf:"varint,3,opt,name=delay,proto3" json:"delay,omitempty"`
+	CreateTime           int64    `protobuf:"varint,4,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	CountLimit           int64    `protobuf:"varint,5,opt,name=count_limit,json=countLimit,proto3" json:"count_limit,omitempty"`
+	TimeLimit            int64    `protobuf:"varint,6,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`
+	Task                 *Task    `protobuf:"bytes,7,opt,name=task,proto3" json:"task,omitempty"`
+	Result               *Result  `protobuf:"bytes,8,opt,name=result,proto3" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *TaskData) Reset()         { *m = TaskData{} }
+func (m *TaskData) String() string { return proto.CompactTextString(m) }
+func (*TaskData) ProtoMessage()    {}
+func (*TaskData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_ffb07b0a572790a9, []int{3}
+}
+
+func (m *TaskData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TaskData.Unmarshal(m, b)
+}
+func (m *TaskData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TaskData.Marshal(b, m, deterministic)
+}
+func (m *TaskData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TaskData.Merge(m, src)
+}
+func (m *TaskData) XXX_Size() int {
+	return xxx_messageInfo_TaskData.Size(m)
+}
+func (m *TaskData) XXX_DiscardUnknown() {
+	xxx_messageInfo_TaskData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TaskData proto.InternalMessageInfo
+
+func (m *TaskData) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *TaskData) GetThreads() int32 {
+	if m != nil {
+		return m.Threads
+	}
+	return 0
+}
+
+func (m *TaskData) GetDelay() int64 {
+	if m != nil {
+		return m.Delay
+	}
+	return 0
+}
+
+func (m *TaskData) GetCreateTime() int64 {
+	if m != nil {
+		return m.CreateTime
+	}
+	return 0
+}
+
+func (m *TaskData) GetCountLimit() int64 {
+	if m != nil {
+		return m.CountLimit
+	}
+	return 0
+}
+
+func (m *TaskData) GetTimeLimit() int64 {
+	if m != nil {
+		return m.TimeLimit
+	}
+	return 0
+}
+
+func (m *TaskData) GetTask() *Task {
+	if m != nil {
+		return m.Task
+	}
+	return nil
+}
+
+func (m *TaskData) GetResult() *Result {
+	if m != nil {
+		return m.Result
+	}
+	return nil
+}
+
 type TaskProcessResponse struct {
-	Id                   string                          `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Pt                   TaskProcessResponse_PrepareType `protobuf:"varint,2,opt,name=pt,proto3,enum=protos.TaskProcessResponse_PrepareType" json:"pt,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                        `json:"-"`
-	XXX_unrecognized     []byte                          `json:"-"`
-	XXX_sizecache        int32                           `json:"-"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *TaskProcessResponse) Reset()         { *m = TaskProcessResponse{} }
 func (m *TaskProcessResponse) String() string { return proto.CompactTextString(m) }
 func (*TaskProcessResponse) ProtoMessage()    {}
 func (*TaskProcessResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{3}
+	return fileDescriptor_ffb07b0a572790a9, []int{4}
 }
 
 func (m *TaskProcessResponse) XXX_Unmarshal(b []byte) error {
@@ -394,13 +465,6 @@ func (m *TaskProcessResponse) GetId() string {
 	return ""
 }
 
-func (m *TaskProcessResponse) GetPt() TaskProcessResponse_PrepareType {
-	if m != nil {
-		return m.Pt
-	}
-	return TaskProcessResponse_SUCCESS
-}
-
 type TaskCommitRequest struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -412,7 +476,7 @@ func (m *TaskCommitRequest) Reset()         { *m = TaskCommitRequest{} }
 func (m *TaskCommitRequest) String() string { return proto.CompactTextString(m) }
 func (*TaskCommitRequest) ProtoMessage()    {}
 func (*TaskCommitRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{4}
+	return fileDescriptor_ffb07b0a572790a9, []int{5}
 }
 
 func (m *TaskCommitRequest) XXX_Unmarshal(b []byte) error {
@@ -451,7 +515,7 @@ func (m *TaskCommitResponse) Reset()         { *m = TaskCommitResponse{} }
 func (m *TaskCommitResponse) String() string { return proto.CompactTextString(m) }
 func (*TaskCommitResponse) ProtoMessage()    {}
 func (*TaskCommitResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{5}
+	return fileDescriptor_ffb07b0a572790a9, []int{6}
 }
 
 func (m *TaskCommitResponse) XXX_Unmarshal(b []byte) error {
@@ -489,7 +553,7 @@ func (m *StateRequest) Reset()         { *m = StateRequest{} }
 func (m *StateRequest) String() string { return proto.CompactTextString(m) }
 func (*StateRequest) ProtoMessage()    {}
 func (*StateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{6}
+	return fileDescriptor_ffb07b0a572790a9, []int{7}
 }
 
 func (m *StateRequest) XXX_Unmarshal(b []byte) error {
@@ -522,7 +586,7 @@ func (m *StateResponse) Reset()         { *m = StateResponse{} }
 func (m *StateResponse) String() string { return proto.CompactTextString(m) }
 func (*StateResponse) ProtoMessage()    {}
 func (*StateResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_ffb07b0a572790a9, []int{7}
+	return fileDescriptor_ffb07b0a572790a9, []int{8}
 }
 
 func (m *StateResponse) XXX_Unmarshal(b []byte) error {
@@ -560,11 +624,12 @@ func (m *StateResponse) GetTasks() []string {
 func init() {
 	proto.RegisterEnum("protos.Validator_ValidType", Validator_ValidType_name, Validator_ValidType_value)
 	proto.RegisterEnum("protos.Task_Method", Task_Method_name, Task_Method_value)
-	proto.RegisterEnum("protos.TaskProcessResponse_PrepareType", TaskProcessResponse_PrepareType_name, TaskProcessResponse_PrepareType_value)
+	proto.RegisterEnum("protos.Result_Code", Result_Code_name, Result_Code_value)
 	proto.RegisterEnum("protos.StateResponse_StatueType", StateResponse_StatueType_name, StateResponse_StatueType_value)
-	proto.RegisterType((*TaskProcessRequest)(nil), "protos.TaskProcessRequest")
 	proto.RegisterType((*Validator)(nil), "protos.Validator")
 	proto.RegisterType((*Task)(nil), "protos.Task")
+	proto.RegisterType((*Result)(nil), "protos.Result")
+	proto.RegisterType((*TaskData)(nil), "protos.TaskData")
 	proto.RegisterType((*TaskProcessResponse)(nil), "protos.TaskProcessResponse")
 	proto.RegisterType((*TaskCommitRequest)(nil), "protos.TaskCommitRequest")
 	proto.RegisterType((*TaskCommitResponse)(nil), "protos.TaskCommitResponse")
@@ -575,45 +640,49 @@ func init() {
 func init() { proto.RegisterFile("dister.proto", fileDescriptor_ffb07b0a572790a9) }
 
 var fileDescriptor_ffb07b0a572790a9 = []byte{
-	// 596 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x54, 0xdf, 0x6e, 0xd3, 0x3e,
-	0x14, 0xae, 0xdd, 0x36, 0xfd, 0xe5, 0xb4, 0xbf, 0xca, 0xf3, 0x06, 0x2a, 0x9d, 0x10, 0xc1, 0x80,
-	0xa8, 0x34, 0x51, 0xa1, 0x20, 0xc1, 0xf5, 0xe8, 0xc2, 0x34, 0x69, 0x8c, 0xe1, 0x76, 0xdc, 0xa2,
-	0xac, 0xb1, 0xb4, 0x68, 0x4d, 0x13, 0x62, 0xa7, 0x52, 0x1f, 0x00, 0x9e, 0x83, 0x3b, 0x9e, 0x84,
-	0x0b, 0xde, 0x0a, 0xf9, 0x24, 0x1d, 0xed, 0x56, 0xb8, 0x3a, 0xff, 0x4f, 0xbe, 0xf3, 0xf5, 0x73,
-	0xa1, 0x13, 0xc5, 0xda, 0xa8, 0x7c, 0x98, 0xe5, 0xa9, 0x49, 0xb9, 0x83, 0x46, 0x8b, 0xef, 0x04,
-	0xf8, 0x24, 0xd4, 0xd7, 0xe7, 0x79, 0x3a, 0x55, 0x5a, 0x4b, 0xf5, 0xa5, 0x50, 0xda, 0xf0, 0x2e,
-	0xd0, 0x38, 0xea, 0x11, 0x8f, 0x0c, 0x5c, 0x49, 0xe3, 0x88, 0xf7, 0xa0, 0x65, 0xae, 0x72, 0x15,
-	0x46, 0xba, 0x47, 0x3d, 0x32, 0x68, 0xca, 0x55, 0xc8, 0x1f, 0x41, 0x7b, 0x9a, 0x16, 0x73, 0xf3,
-	0x79, 0x16, 0x27, 0xb1, 0xe9, 0xd5, 0xb1, 0x0a, 0x98, 0x3a, 0xb5, 0x19, 0xfe, 0x10, 0xc0, 0xc4,
-	0x89, 0xaa, 0xea, 0x0d, 0xac, 0xbb, 0x36, 0x53, 0x96, 0x3d, 0x68, 0x98, 0x50, 0x5f, 0xf7, 0x9a,
-	0x1e, 0x19, 0xb4, 0xfd, 0x4e, 0x09, 0x4f, 0x0f, 0x2d, 0x26, 0x89, 0x15, 0xf1, 0x83, 0x80, 0xfb,
-	0x29, 0x9c, 0xc5, 0x51, 0x68, 0xd2, 0x9c, 0x73, 0x68, 0xcc, 0xc3, 0x44, 0x55, 0xd8, 0xd0, 0xe7,
-	0x07, 0x40, 0x17, 0x06, 0x81, 0x75, 0xfd, 0xfd, 0xd5, 0x86, 0x9b, 0x91, 0xd2, 0x9b, 0x2c, 0x33,
-	0x25, 0xe9, 0xc2, 0xf0, 0x3d, 0x68, 0x2e, 0xc2, 0x59, 0xa1, 0x10, 0xaa, 0x2b, 0xcb, 0x40, 0x8c,
-	0xaa, 0x6f, 0xd8, 0x36, 0xee, 0x00, 0x3d, 0x9d, 0xb0, 0x1a, 0xda, 0x80, 0x11, 0x6b, 0x83, 0x8f,
-	0x8c, 0x5a, 0x7b, 0x16, 0xb0, 0xba, 0xb5, 0xc7, 0x01, 0x6b, 0xa0, 0x9d, 0xb0, 0xa6, 0xb5, 0x27,
-	0x67, 0xcc, 0x11, 0x3f, 0x09, 0x34, 0x2c, 0x70, 0xce, 0xa0, 0x5e, 0xe4, 0xb3, 0x0a, 0xa3, 0x75,
-	0x2d, 0xec, 0x2c, 0x34, 0x57, 0x08, 0xd2, 0x95, 0xe8, 0xf3, 0x03, 0x70, 0x12, 0x65, 0xae, 0xd2,
-	0x08, 0xa1, 0x74, 0xfd, 0xdd, 0xf5, 0xe3, 0x87, 0xef, 0xb1, 0x24, 0xab, 0x16, 0xbb, 0xe0, 0x32,
-	0x8d, 0x96, 0x48, 0x60, 0x47, 0xa2, 0xcf, 0xef, 0x83, 0xa3, 0xa7, 0x79, 0x9c, 0x19, 0x64, 0xcf,
-	0x95, 0x55, 0xc4, 0x1f, 0x03, 0x5d, 0xe8, 0x9e, 0xe3, 0xd5, 0x07, 0x6d, 0x7f, 0xe7, 0x0e, 0x1f,
-	0x92, 0x2e, 0xb4, 0xd8, 0x07, 0xa7, 0xfc, 0x00, 0x6f, 0x41, 0xfd, 0x38, 0xb0, 0xd7, 0xfe, 0x07,
-	0x8d, 0xf3, 0x0f, 0xe3, 0x09, 0x23, 0xe2, 0x2b, 0x81, 0xdd, 0x0d, 0x51, 0xe8, 0x2c, 0x9d, 0x6b,
-	0x75, 0x47, 0x15, 0x6f, 0x80, 0x66, 0x2b, 0xde, 0x9f, 0xaf, 0x83, 0xbf, 0x35, 0x38, 0x3c, 0xcf,
-	0x55, 0x16, 0xe6, 0xaa, 0xfc, 0x0d, 0x32, 0x23, 0x9e, 0x41, 0x7b, 0x2d, 0xc5, 0xdb, 0xd0, 0x1a,
-	0x5f, 0x8c, 0x46, 0xc1, 0x78, 0xcc, 0x6a, 0xdc, 0x85, 0xe6, 0xbb, 0xc3, 0x93, 0xd3, 0x23, 0x46,
-	0xc4, 0x13, 0xd8, 0xb1, 0xdb, 0x46, 0x69, 0x92, 0xc4, 0xe6, 0x2f, 0xd2, 0x14, 0x4f, 0x4b, 0x01,
-	0xaf, 0x9a, 0xb6, 0x43, 0x15, 0x5d, 0xe8, 0x8c, 0x4d, 0x68, 0x54, 0xb5, 0x45, 0x7c, 0x23, 0xf0,
-	0x7f, 0x95, 0xa8, 0x26, 0x5e, 0x02, 0xd5, 0x06, 0x27, 0xba, 0xbe, 0xb7, 0x3a, 0x66, 0xa3, 0x05,
-	0xa3, 0xa2, 0xba, 0x42, 0xa3, 0x92, 0xac, 0x40, 0xed, 0x93, 0xa8, 0x5b, 0x25, 0x61, 0x20, 0x5e,
-	0x00, 0xfc, 0xe9, 0xb3, 0xa4, 0xbe, 0x2d, 0xf4, 0xb2, 0xa4, 0xf7, 0x24, 0x9a, 0x29, 0x46, 0xec,
-	0xb9, 0x17, 0x73, 0xa9, 0xc2, 0x68, 0xc9, 0xa8, 0xff, 0x8b, 0x80, 0x73, 0x84, 0x2f, 0x93, 0x1f,
-	0x41, 0x2b, 0x2b, 0x59, 0xe1, 0xfd, 0xad, 0x6c, 0x22, 0xf4, 0xfe, 0xfe, 0x3f, 0x98, 0x16, 0x35,
-	0x7e, 0x08, 0xce, 0x14, 0xb9, 0xe0, 0x0f, 0xd6, 0x1b, 0x37, 0x48, 0xec, 0xf7, 0xb7, 0x95, 0x6e,
-	0x56, 0xbc, 0x86, 0xa6, 0xb6, 0x87, 0xf3, 0xbd, 0x5b, 0x3c, 0x94, 0xc3, 0xf7, 0xb6, 0xb2, 0x23,
-	0x6a, 0x97, 0xe5, 0x9f, 0xca, 0xab, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xca, 0xa7, 0x3b, 0x9b,
-	0x6b, 0x04, 0x00, 0x00,
+	// 668 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x54, 0xdb, 0x6e, 0xd3, 0x4c,
+	0x10, 0xce, 0xda, 0x8e, 0xd3, 0x4c, 0xf2, 0x47, 0xdb, 0x6d, 0x7f, 0x64, 0x5a, 0x01, 0x66, 0x39,
+	0x45, 0x2a, 0x44, 0x28, 0x48, 0x5c, 0x70, 0x57, 0xd2, 0x50, 0x55, 0x2a, 0xa5, 0x6c, 0x52, 0x6e,
+	0xab, 0x6d, 0xbc, 0xa2, 0x56, 0xed, 0xd8, 0x78, 0xd7, 0x91, 0xf2, 0x02, 0xbc, 0x0a, 0x4f, 0xc2,
+	0xe3, 0x70, 0xc9, 0x3d, 0x9a, 0xb5, 0x5b, 0xd2, 0x03, 0x57, 0x73, 0xf8, 0xbe, 0x99, 0x9d, 0xfd,
+	0xbc, 0x63, 0xe8, 0x46, 0xb1, 0x36, 0xaa, 0x18, 0xe4, 0x45, 0x66, 0x32, 0xe6, 0x5b, 0xa3, 0xf9,
+	0x0f, 0x02, 0xed, 0x2f, 0x32, 0x89, 0x23, 0x69, 0xb2, 0x82, 0x31, 0xf0, 0xe6, 0x32, 0x55, 0x01,
+	0x09, 0x49, 0xbf, 0x2d, 0xac, 0xcf, 0x76, 0xc0, 0x59, 0x98, 0xc0, 0x09, 0x49, 0xbf, 0x37, 0xdc,
+	0xae, 0xaa, 0xf5, 0xe0, 0xaa, 0xa4, 0xf2, 0xa6, 0xcb, 0x5c, 0x09, 0x67, 0x61, 0xd8, 0x26, 0x34,
+	0x17, 0x32, 0x29, 0x55, 0xe0, 0xda, 0x0e, 0x55, 0xc0, 0x47, 0xf5, 0x19, 0x48, 0x63, 0x3e, 0x38,
+	0x87, 0x53, 0xda, 0xb0, 0x76, 0x4c, 0x09, 0xda, 0xf1, 0x67, 0xea, 0xa0, 0x3d, 0x1a, 0x53, 0x17,
+	0xed, 0xfe, 0x98, 0x7a, 0xd6, 0x4e, 0x69, 0x13, 0xed, 0xc1, 0x11, 0xf5, 0xf9, 0x4f, 0x02, 0xde,
+	0x54, 0xea, 0x0b, 0x46, 0xc1, 0x2d, 0x8b, 0xa4, 0x9e, 0x11, 0x5d, 0x1c, 0x3b, 0x97, 0xe6, 0xdc,
+	0x0e, 0xd9, 0x16, 0xd6, 0x67, 0x3b, 0xe0, 0xa7, 0xca, 0x9c, 0x67, 0x91, 0x1d, 0xa5, 0x37, 0xdc,
+	0xb8, 0x1c, 0x1d, 0x7b, 0x0c, 0x3e, 0x5a, 0x48, 0xd4, 0x14, 0x6c, 0x70, 0x96, 0x45, 0xcb, 0xc0,
+	0x0b, 0x49, 0xbf, 0x2b, 0xac, 0xcf, 0xee, 0x81, 0xaf, 0x67, 0x45, 0x9c, 0x9b, 0xa0, 0x69, 0xdb,
+	0xd6, 0x11, 0x7b, 0x0c, 0xce, 0x42, 0x07, 0x7e, 0xe8, 0xf6, 0x3b, 0xc3, 0xf5, 0x5b, 0x7a, 0x08,
+	0x67, 0xa1, 0xf9, 0x36, 0xf8, 0xd5, 0x01, 0xac, 0x05, 0xee, 0xfe, 0x18, 0x6f, 0xbb, 0x06, 0xde,
+	0xf1, 0xa7, 0xc9, 0x94, 0x12, 0x3e, 0x03, 0x5f, 0x28, 0x5d, 0x26, 0x86, 0xbd, 0x00, 0x6f, 0x96,
+	0x45, 0xaa, 0xd6, 0xf6, 0x6a, 0xc0, 0x0a, 0x1d, 0x8c, 0xb2, 0x48, 0x09, 0x4b, 0xc0, 0x1b, 0xa7,
+	0xfa, 0x6b, 0xad, 0x29, 0xba, 0xfc, 0x21, 0x78, 0x88, 0xb3, 0x0e, 0xb4, 0x26, 0x27, 0xa3, 0xd1,
+	0x78, 0x32, 0xa1, 0x0d, 0xd6, 0x86, 0xe6, 0x87, 0xdd, 0x83, 0xc3, 0x3d, 0x4a, 0xf8, 0x6f, 0x02,
+	0x6b, 0x78, 0xd1, 0x3d, 0x69, 0x24, 0xeb, 0x81, 0x13, 0x47, 0xb5, 0x5e, 0x4e, 0x1c, 0xb1, 0x00,
+	0x5a, 0xe6, 0xbc, 0x50, 0x32, 0xd2, 0xf6, 0xe8, 0xa6, 0xb8, 0x0c, 0xf1, 0xf3, 0x45, 0x2a, 0x91,
+	0x4b, 0x7b, 0x94, 0x2b, 0xaa, 0x80, 0x3d, 0x82, 0xce, 0xac, 0x50, 0xd2, 0xa8, 0x53, 0x13, 0xa7,
+	0xca, 0x8a, 0xe4, 0x0a, 0xa8, 0x52, 0xd3, 0x38, 0x55, 0x96, 0x90, 0x95, 0x73, 0x73, 0x9a, 0xc4,
+	0x69, 0x5c, 0xe9, 0x85, 0x04, 0x4c, 0x1d, 0x62, 0x86, 0x3d, 0x00, 0xc0, 0xd2, 0x1a, 0xf7, 0x2d,
+	0xde, 0xc6, 0x4c, 0x05, 0x87, 0xe0, 0x19, 0xa9, 0x2f, 0x82, 0x56, 0x48, 0xfa, 0x9d, 0x61, 0x77,
+	0xf5, 0x4b, 0x09, 0x8b, 0xb0, 0xe7, 0xe0, 0x17, 0x56, 0x96, 0x60, 0xcd, 0x72, 0x7a, 0xd7, 0xc5,
+	0x12, 0x35, 0xca, 0x9f, 0xc1, 0x06, 0x56, 0x1d, 0x17, 0xd9, 0x4c, 0x69, 0x2d, 0x94, 0xce, 0xb3,
+	0xb9, 0x56, 0x37, 0x15, 0xe0, 0x4f, 0x60, 0x1d, 0x69, 0xa3, 0x2c, 0x4d, 0x63, 0x23, 0xd4, 0xb7,
+	0x52, 0x69, 0x73, 0x8b, 0xf4, 0x14, 0xd8, 0x2a, 0xe9, 0x1f, 0xad, 0x7a, 0xd0, 0x9d, 0x18, 0x69,
+	0x54, 0xdd, 0x85, 0x7f, 0x27, 0xf0, 0x5f, 0x9d, 0xa8, 0x2b, 0x5e, 0x83, 0xa3, 0x8d, 0xad, 0xe8,
+	0x0d, 0xc3, 0xcb, 0xb9, 0xaf, 0x51, 0x6c, 0x54, 0xaa, 0x6a, 0x8b, 0xb4, 0xdd, 0x22, 0xbc, 0x35,
+	0x7e, 0x1e, 0x17, 0xb7, 0xc8, 0x06, 0xfc, 0x15, 0xc0, 0x5f, 0x1e, 0x3e, 0xa8, 0xf7, 0xa5, 0x5e,
+	0x56, 0x4f, 0xeb, 0x20, 0x4a, 0x14, 0x25, 0xf8, 0x1a, 0x4e, 0xe6, 0x42, 0xc9, 0x68, 0x49, 0x9d,
+	0xe1, 0x2f, 0x02, 0xfe, 0x9e, 0x5d, 0x79, 0xf6, 0x12, 0xbc, 0x72, 0x1e, 0x1b, 0x46, 0x57, 0x95,
+	0xc5, 0xa7, 0xb1, 0x75, 0x2b, 0xc3, 0x1b, 0xec, 0x1d, 0xb4, 0xf2, 0x42, 0xe5, 0xb2, 0x50, 0x77,
+	0x14, 0x6c, 0xaf, 0x66, 0x6e, 0xc8, 0xcc, 0x1b, 0x6c, 0x17, 0xfc, 0x99, 0xd5, 0x8b, 0xdd, 0x5f,
+	0x25, 0x5e, 0x13, 0x7a, 0x6b, 0xeb, 0x2e, 0xe8, 0xaa, 0xc5, 0x5b, 0x68, 0x6a, 0x14, 0x87, 0x6d,
+	0xde, 0xd0, 0xaa, 0x2a, 0xfe, 0xff, 0x4e, 0x05, 0x79, 0xe3, 0xac, 0xfa, 0xa3, 0xbd, 0xf9, 0x13,
+	0x00, 0x00, 0xff, 0xff, 0x7a, 0xc4, 0xa7, 0x01, 0xe8, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -628,7 +697,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DisterClient interface {
-	Prepare(ctx context.Context, in *TaskProcessRequest, opts ...grpc.CallOption) (*TaskProcessResponse, error)
+	Unit(ctx context.Context, in *TaskData, opts ...grpc.CallOption) (*TaskData, error)
+	Prepare(ctx context.Context, in *TaskData, opts ...grpc.CallOption) (*TaskProcessResponse, error)
 	Commit(ctx context.Context, in *TaskCommitRequest, opts ...grpc.CallOption) (*TaskCommitResponse, error)
 	State(ctx context.Context, in *StateRequest, opts ...grpc.CallOption) (*StateResponse, error)
 }
@@ -641,7 +711,16 @@ func NewDisterClient(cc *grpc.ClientConn) DisterClient {
 	return &disterClient{cc}
 }
 
-func (c *disterClient) Prepare(ctx context.Context, in *TaskProcessRequest, opts ...grpc.CallOption) (*TaskProcessResponse, error) {
+func (c *disterClient) Unit(ctx context.Context, in *TaskData, opts ...grpc.CallOption) (*TaskData, error) {
+	out := new(TaskData)
+	err := c.cc.Invoke(ctx, "/protos.Dister/unit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *disterClient) Prepare(ctx context.Context, in *TaskData, opts ...grpc.CallOption) (*TaskProcessResponse, error) {
 	out := new(TaskProcessResponse)
 	err := c.cc.Invoke(ctx, "/protos.Dister/prepare", in, out, opts...)
 	if err != nil {
@@ -670,7 +749,8 @@ func (c *disterClient) State(ctx context.Context, in *StateRequest, opts ...grpc
 
 // DisterServer is the server API for Dister service.
 type DisterServer interface {
-	Prepare(context.Context, *TaskProcessRequest) (*TaskProcessResponse, error)
+	Unit(context.Context, *TaskData) (*TaskData, error)
+	Prepare(context.Context, *TaskData) (*TaskProcessResponse, error)
 	Commit(context.Context, *TaskCommitRequest) (*TaskCommitResponse, error)
 	State(context.Context, *StateRequest) (*StateResponse, error)
 }
@@ -679,7 +759,10 @@ type DisterServer interface {
 type UnimplementedDisterServer struct {
 }
 
-func (*UnimplementedDisterServer) Prepare(ctx context.Context, req *TaskProcessRequest) (*TaskProcessResponse, error) {
+func (*UnimplementedDisterServer) Unit(ctx context.Context, req *TaskData) (*TaskData, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Unit not implemented")
+}
+func (*UnimplementedDisterServer) Prepare(ctx context.Context, req *TaskData) (*TaskProcessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Prepare not implemented")
 }
 func (*UnimplementedDisterServer) Commit(ctx context.Context, req *TaskCommitRequest) (*TaskCommitResponse, error) {
@@ -693,8 +776,26 @@ func RegisterDisterServer(s *grpc.Server, srv DisterServer) {
 	s.RegisterService(&_Dister_serviceDesc, srv)
 }
 
+func _Dister_Unit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DisterServer).Unit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.Dister/Unit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DisterServer).Unit(ctx, req.(*TaskData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Dister_Prepare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskProcessRequest)
+	in := new(TaskData)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -706,7 +807,7 @@ func _Dister_Prepare_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/protos.Dister/Prepare",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DisterServer).Prepare(ctx, req.(*TaskProcessRequest))
+		return srv.(DisterServer).Prepare(ctx, req.(*TaskData))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -751,6 +852,10 @@ var _Dister_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "protos.Dister",
 	HandlerType: (*DisterServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "unit",
+			Handler:    _Dister_Unit_Handler,
+		},
 		{
 			MethodName: "prepare",
 			Handler:    _Dister_Prepare_Handler,

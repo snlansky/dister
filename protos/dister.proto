@@ -6,19 +6,16 @@ syntax = "proto3";
 package protos;
 
 service Dister {
-    rpc prepare(TaskProcessRequest) returns (TaskProcessResponse){}
-    rpc commit(TaskCommitRequest) returns (TaskCommitResponse) {}
-    rpc state(StateRequest) returns (StateResponse) {}
+    rpc unit (TaskData) returns (TaskData) {
+    }
+    rpc prepare (TaskData) returns (TaskProcessResponse) {
+    }
+    rpc commit (TaskCommitRequest) returns (TaskCommitResponse) {
+    }
+    rpc state (StateRequest) returns (StateResponse) {
+    }
 }
 
-
-message TaskProcessRequest {
-    string id = 1;
-    int32 threads = 2;
-    int32 count_limit = 3;
-    int32 time_limit = 4;
-    Task task = 5;
-}
 
 message Validator {
     enum ValidType {
@@ -55,13 +52,29 @@ message Task {
     repeated Validator vs = 6;
 }
 
-message TaskProcessResponse {
-    enum PrepareType {
+message Result {
+    enum Code {
         SUCCESS = 0;
         FAILD = 1;
     }
+    Code code = 2;
+    string msg = 3;
+}
+
+message TaskData {
     string id = 1;
-    PrepareType pt = 2;
+    int32 threads = 2;
+    // 延迟多少秒执行
+    int64 delay = 3;
+    int64 create_time = 4;
+    int64 count_limit = 5;
+    int64 time_limit = 6;
+    Task task = 7;
+    Result result = 8;
+}
+
+message TaskProcessResponse {
+    string id = 1;
 }
 
 message TaskCommitRequest {
