@@ -56,4 +56,3 @@ func startGRPC(address string) error {
 
 	return srv.Serve(lis)
 }
-

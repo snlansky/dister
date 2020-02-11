@@ -40,7 +40,7 @@ func (man *Manager) GetRandWorker() *Worker {
 
 	index := rand.Intn(len(man.workers))
 	i := 0
-	for _, w :=range man.workers {
+	for _, w := range man.workers {
 		if index == i {
 			return w
 		}

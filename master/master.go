@@ -42,7 +42,7 @@ func Start(c *cli.Context) error {
 func startHttp(address string, svc *TaskService) error {
 	r := gin.Default()
 
-	ctrl := &Controller{svc:svc}
+	ctrl := &Controller{svc: svc}
 	api := r.Group("/api")
 	{
 		api.GET("/ping", func(c *gin.Context) {

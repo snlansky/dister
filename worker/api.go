@@ -5,6 +5,7 @@ import (
 	"dister/protos"
 	"google.golang.org/grpc"
 )
+
 func UnitTest(conn *grpc.ClientConn, request *protos.TaskData) (*protos.TaskData, error) {
 	client := protos.NewDisterClient(conn)
 	return client.Unit(context.Background(), request)
@@ -24,5 +25,3 @@ func State(conn *grpc.ClientConn, request *protos.StateRequest) (*protos.StateRe
 	client := protos.NewDisterClient(conn)
 	return client.State(context.Background(), request)
 }
-
-
