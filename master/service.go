@@ -6,7 +6,7 @@ import (
 )
 
 type TaskService struct {
-	rep ITestRepository
+	rep ITaskRepository
 }
 
 func (svc *TaskService) AddTask(req *protos.TaskData) (string, error) {

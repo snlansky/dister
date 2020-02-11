@@ -10,27 +10,27 @@ import (
 	"time"
 )
 
-type ITestRepository interface {
+type ITaskRepository interface {
 	AddTask(task *protos.TaskData) (string, error)
 	FindTask() ([]*protos.TaskData, error)
 	UpdateTask(task *protos.TaskData) error
 }
 
-var _ ITestRepository = &MemoryTestRepository{}
+var _ ITaskRepository = &MemoryTaskRepository{}
 
-type MemoryTestRepository struct {
+type MemoryTaskRepository struct {
 	v  map[string]*protos.TaskData
 	mu sync.Mutex
 }
 
-func (rep *MemoryTestRepository) UpdateTask(task *protos.TaskData) error {
+func (rep *MemoryTaskRepository) UpdateTask(task *protos.TaskData) error {
 	rep.mu.Lock()
 	defer rep.mu.Unlock()
 	rep.v[task.Id] = task
 	return nil
 }
 
-func (rep *MemoryTestRepository) AddTask(task *protos.TaskData) (string, error) {
+func (rep *MemoryTaskRepository) AddTask(task *protos.TaskData) (string, error) {
 	bytes, err := json.Marshal(task.Task)
 	if err != nil {
 		return "", err
@@ -45,7 +45,7 @@ func (rep *MemoryTestRepository) AddTask(task *protos.TaskData) (string, error) 
 	return id, nil
 }
 
-func (rep *MemoryTestRepository) FindTask() ([]*protos.TaskData, error) {
+func (rep *MemoryTaskRepository) FindTask() ([]*protos.TaskData, error) {
 	var list []*protos.TaskData
 	rep.mu.Lock()
 	defer rep.mu.Unlock()

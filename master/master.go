@@ -22,7 +22,7 @@ func Start(c *cli.Context) error {
 	fatal := make(chan error)
 
 	man := NewManager()
-	svc := &TaskService{rep: &MemoryTestRepository{v: map[string]*protos.TaskData{}}}
+	svc := &TaskService{rep: &MemoryTaskRepository{v: map[string]*protos.TaskData{}}}
 
 	go func() {
 		fatal <- startHttp(c.String("http_address"), svc)
